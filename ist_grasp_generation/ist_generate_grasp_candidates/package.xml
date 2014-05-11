@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <name>ist_generate_grasp_candidates</name>
+  <version>0.0.0</version>
+  <description>ist_generate_grasp_candidates</description>
+  <maintainer email="ruifigueiredo@isr.ist.utl.pt">Rui P. de Figueiredo</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>pcl</build_depend>
+  <build_depend>ist_grasp_generation_msgs</build_depend>
+  <build_depend>eigen_conversions</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>pcl</run_depend>
+  <run_depend>ist_grasp_generation_msgs</run_depend>
+  <run_depend>eigen_conversions</run_depend>
+
+</package>
+
+
+

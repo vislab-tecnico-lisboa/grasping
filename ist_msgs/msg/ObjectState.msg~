@@ -1,7 +1,7 @@
 # varying part of the object message
 
 # ROS data (potential models with ROS ID) + cluster + pose + collision name)
-manipulation_msgs/GraspableObject graspable_object
+object_manipulation_msgs/GraspableObject graspable_object
 
 # Optional actionable parts. Must be in the same order as the actionable_parts_data
 ist_msgs/ActionablePartStatus[] actionable_parts_status

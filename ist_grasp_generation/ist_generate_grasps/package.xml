@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>ist_generate_grasps</name>
+  <version>0.0.0</version>
+  <description>ist generate grasps</description>
+  <maintainer email="ruifigueiredo@isr.ist.utl.pt">Rui P. de Figueiredo</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>ist_grasp_generation_msgs</build_depend>
+
+  <run_depend>ist_grasp_generation_msgs</run_depend>
+
+</package>
+

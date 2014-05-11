@@ -6,7 +6,7 @@ ist_msgs/ObjectList object_list
 int8 object_to_grasp_id
 
 # Table
-tabletop_object_detector/Table table
+tabletop_object_segmentation_online/Table table
 
 # Detected objects
 ist_msgs/ObjectList collision_objects

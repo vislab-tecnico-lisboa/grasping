@@ -47,7 +47,6 @@ add_message_files(
    ShapeType.msg
    SymmetryType.msg
    TaskType.msg
-   Task.msg
 )
 
 

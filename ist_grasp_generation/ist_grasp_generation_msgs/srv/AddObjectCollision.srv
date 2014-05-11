@@ -3,6 +3,6 @@ ist_msgs/ObjectList object_list
 int8 action
 int8 REMOVE=-1
 int8 ADD=1
-tabletop_object_detector/Table table
+tabletop_object_segmentation_online/Table table
 ---
 

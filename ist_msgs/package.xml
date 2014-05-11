@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>ist_msgs</name>
+  <version>0.0.0</version>
+  <description>ist msgs</description>
+
+  <maintainer email="rui@todo.todo">rui</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>manipulation_msgs</build_depend>
+  <build_depend>trajectory_msgs</build_depend>
+
+  <run_depend>std_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>manipulation_msgs</run_depend>
+  <run_depend>trajectory_msgs</run_depend>
+</package>

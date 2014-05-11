@@ -1,33 +1,42 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(ist_generate_grasp_candidates)
 
-# Set the build type.  Options are:
-#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-#set(ROS_BUILD_TYPE RelWithDebInfo)
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS 
+  ist_grasp_generation_msgs
+  roscpp
+  eigen_conversions
+)
 
-rosbuild_init()
+find_package(Boost REQUIRED)
+find_package(PCL REQUIRED)
+find_package(Eigen REQUIRED)
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+## DEPENDS: system dependencies of this project that dependent projects also need
+catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES generate_grip_states
+  CATKIN_DEPENDS  ist_grasp_generation_msgs roscpp eigen_conversions
+#  DEPENDS system_lib
+)
 
-#uncomment if you have defined messages
-#rosbuild_genmsg()
-#uncomment if you have defined services
-#rosbuild_gensrv()
 
-#common commands for building c++ executables and libraries
-rosbuild_add_library(generate_grip_states 	src/object_type/object_type.cpp
-											src/shape_type/shape_type.cpp
-											src/size_type/size_type.cpp
+include_directories(include
+  ${catkin_INCLUDE_DIRS}
+  ${Eigen_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
+)
+
+
+add_library(generate_grip_states 	src/object_type/object_type.cpp
+					src/shape_type/shape_type.cpp
+					src/size_type/size_type.cpp
 											
-											src/object_part/object_part.cpp
-											src/canonical_object_part/canonical_object_part.cpp
+					src/object_part/object_part.cpp
+					src/canonical_object_part/canonical_object_part.cpp
 											src/object_part/object_part.cpp
 											
 											src/canonical_grip/canonical_grip.cpp 
@@ -46,13 +55,13 @@ rosbuild_add_library(generate_grip_states 	src/object_type/object_type.cpp
 											src/grasp_perturbation/grasp_perturbation.cpp)
 
 #rosbuild_add_executable(ist_generate_grasps src/ros_generate_grasps/ros_generate_grasps.cpp)
-rosbuild_add_executable(ist_generate_grasp_candidates_action_server src/ros_generate_grasps_action_server/ros_generate_grasps_action_server.cpp)
+add_executable(ist_generate_grasp_candidates_action_server src/ros_generate_grasps_action_server/ros_generate_grasps_action_server.cpp)
 
 #target_link_libraries(ist_generate_grasps generate_grip_states)
 
 #rosbuild_add_library(reachability src/ReachabilityMap.cpp)
 
-target_link_libraries(ist_generate_grasp_candidates_action_server generate_grip_states -lboost_serialization)
+target_link_libraries(ist_generate_grasp_candidates_action_server generate_grip_states -lboost_serialization ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${Eigen_LIBRARIES} ${Boost_LIBRARIES})
 
 
 
