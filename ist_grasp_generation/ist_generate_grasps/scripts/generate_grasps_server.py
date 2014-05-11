@@ -75,7 +75,6 @@ class GenerateGraspsAction(object):
     self._feedback.progress=0.50
     self._as.publish_feedback(self._feedback)
    
-
 		
     # Service call
     filter_grasp_candidates_resp=self.filter_grasp_candidates(grasp_candidates_resp.grip_list,goal.object_list.objects[goal.object_to_grasp_id])
