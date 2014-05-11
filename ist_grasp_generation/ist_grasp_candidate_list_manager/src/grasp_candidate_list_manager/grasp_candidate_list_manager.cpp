@@ -815,7 +815,7 @@ ist_msgs::GripList GraspCandidateListManager::handWorldRules(ist_msgs::GripList 
 		//////////////////////////////////////
 
 
-		if((world_to_hand_transform.getBasis()*btVector3(0,1,0)).dot(btVector3(0,0,1))>0.0)
+        if((world_to_hand_transform.getBasis()*tf::Vector3(0,1,0)).dot(tf::Vector3(0,0,1))>0.0)
 		{
 			//ROS_INFO("DISCARDED (angle...)!!!");
 			discard=true;
@@ -960,7 +960,7 @@ void GraspCandidateListManager::graspabilityMapToImage()
 	}
     cv::waitKey(300);
 
-	try
+    /*try
 	{
 		graspability_map_image_pub_.publish(bridge_.cvToImgMsg(graspability_map_image, "mono8"));
 		ROS_INFO("Graspability map image published.");
@@ -969,7 +969,7 @@ void GraspCandidateListManager::graspabilityMapToImage()
 	catch (sensor_msgs::CvBridgeException error)
 	{
 		ROS_ERROR("error publishing image.");
-	}
+    }*/
 
 }
 
@@ -1004,7 +1004,7 @@ void GraspCandidateListManager::graspabilityMapSingleObjectToImage(const unsigne
 
 	double percent=100*(640/columns);
 	// declare a destination IplImage object with correct size, depth and channels
-	IplImage *destination = cvCreateImage( cvSize((int)((graspability_map_image->width*percent)/100) , (int)((graspability_map_image->height*percent)/100) ),
+    IplImage *destination = cvCreateImage( cvSize((int)((graspability_map_image->width*percent)/100) , (int)((graspability_map_image->height*percent)/100) ),
 			graspability_map_image->depth, graspability_map_image->nChannels );
 
 //	IplImage *destination = cvCreateImage( cvSize((int)(640) , (int)((640.0/480.0)*graspability_map_image->height) ),
@@ -1016,7 +1016,7 @@ void GraspCandidateListManager::graspabilityMapSingleObjectToImage(const unsigne
   //  cvShowImage("graspability map (OpenCV)", destination );                   // Show our image inside it.
 
     cv::waitKey(300);
-	try
+    /*try
 	{
 		graspability_object_map_image_pub_.publish(bridge_.cvToImgMsg(destination, "mono8"));
 		ROS_INFO("Publish image for object %d.",object_index);
@@ -1024,7 +1024,7 @@ void GraspCandidateListManager::graspabilityMapSingleObjectToImage(const unsigne
 	catch (sensor_msgs::CvBridgeException error)
 	{
 		ROS_ERROR("error publishing image.");
-	}
+    }*/
 }
 
 bool GraspCandidateListManager::newExperimentServiceCallback(ist_grasp_generation_msgs::NewExperiment::Request &req, ist_grasp_generation_msgs::NewExperiment::Response &res)

@@ -19,7 +19,7 @@
 #include "human_knowledge_parser/csv_parser.h"
 #include "sensor_msgs/Image.h"
 #include "image_transport/image_transport.h"
-#include "cv_bridge/CvBridge.h"
+#include "cv_bridge/cv_bridge.h"
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 //#include <database_access_msgs/GetGraspabilityMap.h>
@@ -141,7 +141,7 @@ class GraspCandidateListManager
 		ist_msgs::GripList handWorldRules(ist_msgs::GripList & grasps, ist_msgs::Object & object);
 
 		image_transport::ImageTransport it_;
-		sensor_msgs::CvBridge bridge_;	// Cv bridge to send graspability_map
+//        sensor_msgs::cv bridge_;	// Cv bridge to send graspability_map
 		image_transport::Publisher graspability_map_image_pub_;
 		image_transport::Publisher graspability_object_map_image_pub_;
 
