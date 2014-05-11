@@ -1,0 +1,6 @@
+mini_box_x_dim: 0.15
+mini_box_y_dim: 0.07
+mini_box_z_dim: 0.15
+mini_box_x_bins: 21
+mini_box_y_bins: 10
+

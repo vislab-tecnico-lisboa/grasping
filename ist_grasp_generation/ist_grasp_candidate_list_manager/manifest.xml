@@ -1,0 +1,29 @@
+<package>
+  <description brief="ist_grasp_candidate_list_manager">
+
+     ist_grasp_candidate_list_manager
+
+  </description>
+  <author>rui</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/grasp_candidate_list_manager</url>
+  <depend package="roscpp"/>
+  <depend package="ist_grasp_generation_msgs"/>
+  <depend package="visualization_msgs"/>
+  <depend package="opencv2"/>
+  <depend package="cv_bridge"/>
+  <depend package="std_msgs"/>
+  <depend package="omnirob_arm_navigation"/>
+  <depend package="image_transport"/>
+  <depend package="eigen_conversions"/>
+  <depend package="ist_generate_grasp_candidates"/>
+  <!--<depend package="database_access_msgs"/>-->
+  <depend package="pcl"/>
+  <rosdep name="eigen"/>
+  <export>
+	<cpp cflags="-I${prefix}/include" />
+  </export>
+</package>
+
+

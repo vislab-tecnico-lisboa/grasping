@@ -1,0 +1,4 @@
+ID,Grasp Type,#,Grip Type,#,Distance,#,Shape Type,#,Size Class,#,Counts
+1,Prismatic 2 Finger,8,FR-LE,5,Very Far,3,2A,2,SSL,3,3
+2,Prismatic 3 Finger,7,FR-LE,5,Very Far,3,2A,2,SSL,3,29
+5,Parallel Extension,22,RI-FR,1,Far,2,2A,2,SSL,3,15

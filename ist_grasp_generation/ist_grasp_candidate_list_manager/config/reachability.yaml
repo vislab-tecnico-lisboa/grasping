@@ -1,0 +1,16 @@
+reachability_grid_x_length: 3.0
+reachability_grid_y_length: 3.0
+reachability_grid_z_length: 3.0
+reachability_x_bins: 30
+reachability_y_bins: 30
+reachability_z_bins: 30
+
+reachability_x_perturbs: 1
+reachability_y_perturbs: 1
+reachability_z_perturbs: 1
+
+reachability_roll_perturbs: 1
+reachability_pitch_perturbs: 1
+reachability_yaw_perturbs: 1
+
+

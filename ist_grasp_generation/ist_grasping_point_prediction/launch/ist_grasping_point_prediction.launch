@@ -1,0 +1,6 @@
+<launch>
+	<node pkg="ist_grasping_point_prediction" name="grasping_point_prediction" type="grasping_point_prediction_ros">
+		<rosparam command="load" file="$(find ist_grasping_point_prediction)/config/config.yaml"/>
+		<param name="model_file_name" value="$(find ist_grasping_point_prediction)/data/modelLearnt.txt" />
+	</node> 
+</launch>

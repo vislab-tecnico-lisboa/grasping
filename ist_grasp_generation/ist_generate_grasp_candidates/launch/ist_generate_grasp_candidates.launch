@@ -1,0 +1,6 @@
+<launch>
+	<node pkg="ist_generate_grasp_candidates" name="ist_generate_grasp_candidates" type="ist_generate_grasp_candidates_action_server" output="screen">
+		<!--database parameters -->
+		<rosparam command="load" file="$(find ist_generate_grasp_candidates)/config/config.yaml"/>
+	</node> 
+</launch>

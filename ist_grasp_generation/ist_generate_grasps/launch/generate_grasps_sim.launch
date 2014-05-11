@@ -1,0 +1,22 @@
+<launch>
+	<!-- Grasp motion planner grasp candidates -->
+  <include file="$(find omnirob_arm_navigation)/launch/planning_scene_warehouse_viewer_omnirob_sim.launch" /> <!-- simulation -->
+
+	<!-- Grasp candidates generator -->
+  <include file="$(find ist_generate_grasp_candidates)/launch/ist_generate_grasp_candidates.launch" />
+
+	<!-- Grasp candidates filter -->
+  <include file="$(find ist_grasp_candidate_list_manager)/launch/ist_grasp_candidate_list_manager.launch" />
+
+	<!-- Grasp evaluator -->
+  <include file="$(find ist_grasping_point_prediction)/launch/ist_grasping_point_prediction.launch" />
+  
+   <!-- Generate trajectories action server -->
+  <node pkg="ist_generate_grasps" name="ist_generate_trajectories_server" type="generate_trajectories_server.py" respawn="true" output="screen">
+		<rosparam command="load" file="$(find ist_generate_grasps)/config/config.yaml"/>
+  </node>
+  
+  <!-- Generate grasps action server -->
+  <node pkg="ist_generate_grasps" name="generate_grasps_server" type="generate_grasps_server.py" respawn="true" output="screen"/>
+</launch>
+

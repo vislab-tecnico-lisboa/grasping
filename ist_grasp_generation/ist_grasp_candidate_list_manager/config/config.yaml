@@ -1,0 +1,4 @@
+human_knownledge_file_name: human_readings.csv
+similar_grasps_kernel_file_name: similar_grasps_kernel.csv
+gripper_size: 0.30
+use_reachability_map: false

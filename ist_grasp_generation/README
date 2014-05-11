@@ -1,0 +1,36 @@
+This stack is intended for the omnirob motion planning.
+It provides two services:
+ - "motion_planning" of type omnirob_arm_navigation_msgs/MoveArm used for trajectory/path planning for a given robot wrist goal pose, considering the current robot state.
+ - "new_object_collision" of type omnirob_arm_navigation_msgs::AddObjectCollision used to add objects to the collision environment that will thus be considered during the trajectory/path planning.
+
+
+COMPILATION:
+
+	sudo apt-get install ros-fuerte-pr2-object-manipulation
+  	sudo apt-get install libsvm-dev
+
+	This stack depends on ist_msgs package which can be find in the first-MM IST repository and also on the move_arm_warehouse which can be find in the ROS arm_navigation_experimental stack.
+
+	In order for the omnirob_arm_navigation_stack to compile, you should add the following lines to the move_arm_warehouse manifest.xml, so that the  headers and libraries are visible during compilation and linking time:
+
+	<export>
+		<cpp cflags="-I${prefix}/msg/cpp -I${prefix}/include" lflags="-L${prefix}/lib -L${prefix}/lib -Wl,-rpath,${prefix}/lib -lmove_arm_utils -lmove_arm_logging" />
+	</export>  
+
+	Before compiling you should also comment out the following line from the move_arm_warehouse/src/move_arm_utils.cpp:
+	
+	while(ros::ok() && !arm_controller_map_[params.left_arm_group_]->waitForServer(ros::Duration(1.0)))
+
+	The modifications of the files above needs to be done as root, and the easiest way to compile the move_arm_warehouse is:
+
+	su
+	source /opt/ros/fuerte/setup.bash
+	rosmake move_arm_warehouse
+
+USAGE(OLD):
+
+	To use the omnirob_arm_navigation and have the previous mentioned services available use the following roslaunch commands:
+		In simulation: roslaunch omnirob_arm_navigation planning_scene_warehouse_viewer_omnirob_sim.launch
+		Using the real robot: roslaunch omnirob_arm_navigation planning_scene_warehouse_viewer_omnirob_real.launch
+
+For questions and suggestions please contact me: ruifigueiredo@isr.ist.utl.pt

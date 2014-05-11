@@ -1,0 +1,10 @@
+<launch>
+	<node pkg="ist_grasp_candidate_list_manager" name="ist_grasp_candidate_list_manager" type="grasp_candidate_list_manager" output="screen">
+		<rosparam command="load" file="$(find ist_grasp_candidate_list_manager)/config/config.yaml"/>
+		<param name="similar_grasps_kernel_file_directory" value="$(find ist_grasp_candidate_list_manager)/graspability_kernels/"/>
+		<param name="human_knowledge_file_directory" value="$(find ist_grasp_candidate_list_manager)/human_knowledge/"/>
+		<rosparam command="load" file="$(find ist_grasp_candidate_list_manager)/config/reachability_config.yaml"/>
+		<rosparam command="load" file="$(find ist_generate_grasp_candidates)/config/config.yaml"/> <!-- Needed for the reachability map-->
+		<param name="reachability_file_directory" value="$(find ist_grasp_candidate_list_manager)/reachability_map/"/>
+	</node> 
+</launch>

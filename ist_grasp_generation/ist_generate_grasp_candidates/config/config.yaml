@@ -1,0 +1,985 @@
+palm_base_to_palm_center_offset_x: 0.00
+palm_base_to_palm_center_offset_y: 0.00
+palm_base_to_palm_center_offset_z: 0.00
+palm_to_tip_distance: 0.05
+gaussian_process_parameters: 10
+predict_mode: 'Manual'
+learn: true
+object_part_types:
+  -
+    id: 1
+    name: 'bottom'
+  -
+    id: 2
+    name: 'middle'
+  -
+    id: 3
+    name: 'top'
+  -
+    id: 4
+    name: 'handle'
+  -
+    id: 5
+    name: 'handle'
+  -
+    id: 6
+    name: 'useful_part'
+object_types:
+  -
+    id: 1
+    use: true
+    name: ''
+    object_parts:
+      - 
+        id: 1
+      -
+        id: 2
+      -
+        id: 3
+  -
+    id: 2
+    use: true
+    name: ''
+    object_parts:
+      - 
+        id: 1
+      -
+        id: 2
+      -
+        id: 3
+      -
+        id: 4
+  -
+    id: 3
+    use: true
+    name: ''
+    object_parts:
+      -
+        id: 4
+      -
+        id: 5
+  -
+    id: 4
+    use: false
+    name: ''
+  -
+    id: 5
+    use: false
+    name: ''
+  -
+    id: 6
+    use: false
+    name: ''
+  -
+    id: 7
+    use: false
+    name: ''
+  -
+    id: 8
+    use: false
+    name: ''
+  -
+    id: 9
+    use: false
+    name: ''
+  -
+    id: 10
+    use: false
+    name: ''
+  -
+    id: 11
+    use: false
+    name: ''
+  -
+    id: 12
+    use: false
+    name: ''
+  -
+    id: 13
+    use: false
+    name: ''
+  -
+    id: 14
+    use: false
+    name: ''
+  -
+    id: 15
+    use: false
+    name: ''
+  -
+    id: 16
+    use: false
+    name: ''
+  -
+    id: 17
+    use: false
+    name: ''
+  -
+    id: 18
+    use: false
+    name: ''
+  -
+    id: 19
+    use: false
+    name: ''
+  -
+    id: 20
+    use: false
+    name: ''
+  -
+    id: 21
+    use: false
+    name: ''
+  -
+    id: 22
+    use: false
+    name: ''
+  -
+    id: 23
+    use: false
+    name: ''
+  -
+    id: 24
+    use: false
+    name: ''
+  -
+    id: 25
+    use: false
+    name: ''
+grasp_types:
+  -
+    id: 1
+    use: true
+    name: 'Power'
+  -
+    id: 2
+    use: false
+    name: 'Precision'
+  -
+    id: 3
+    use: false
+    name: 'Intermediate'
+reach_types:
+  -
+    id: 0
+    name: 'Very Near'
+    use: true
+    minimum_distance: 0.00
+    maximum_distance: 0.00
+    approach_direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+  -
+    id: 1
+    name: 'Near'
+    use: false
+    minimum_distance: 0.00
+    maximum_distance: 0.02
+    approach_direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+  -
+    id: 2
+    name: 'Far'
+    use: false
+    minimum_distance: 0.02
+    maximum_distance: 0.04
+    approach_direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+  -
+    id: 3
+    name: 'Very far'
+    use: false
+    minimum_distance: 0.04
+    maximum_distance: 0.06
+    approach_direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+canonical_grips:
+  -
+    id: 1
+    name: 'right grip thumb-front'
+    use: false
+    direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    rotation_matrix: [ 1.0, 0.0, 0.0,  0.0, 1.0, 0.0,  0.0, 0.0, 1.0 ]
+  -
+    id: 2
+    name: 'right grip thumb-up'
+    use: false
+    direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, -1.0,  0.0, 1.0, 0.0,  1.0, 0.0, 0.0 ]
+  -
+    id: 3
+    name: 'right grip thumb-back'
+    use: true
+    direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    rotation_matrix: [ -1.0, 0.0, 0.0,  0.0, 1.0, 0.0,  0.0, 0.0, -1.0 ]
+  -
+    id: 4
+    name: 'right grip thumb-down'
+    use: false
+    direction:
+      x: 0.0
+      y: 1.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, 1.0,  0.0, 1.0, 0.0,  -1.0, 0.0, 0.0 ]
+  -
+    id: 5
+    name: 'front grip thumb-left'
+    use: false
+    direction:
+      x: 1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, -1.0, 0.0,  1.0, 0.0, 0.0,  0.0, 0.0, 1.0 ]
+  -
+    id: 6
+    name: 'front grip thumb-up'
+    use: false
+    direction:
+      x: 1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, -1.0,  1.0, 0.0, 0.0,  0.0, -1.0, 0.0 ]
+  -
+    id: 7
+    name: 'front grip thumb-right'
+    use: true
+    direction:
+      x: 1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 1.0, 0.0,  1.0, 0.0, 0.0,  0.0, 0.0, -1.0 ]
+  -
+    id: 8
+    name: 'front grip thumb-down'
+    use: false
+    direction:
+      x: 1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, 1.0,  1.0, 0.0, 0.0,  0.0, 1.0, 0.0 ]
+  -
+    id: 9
+    name: 'left grip thumb-back'
+    use: false
+    direction:
+      x: 0.0
+      y: -1.0
+      z: 0.0
+    rotation_matrix: [ -1.0, 0.0, 0.0,  0.0, -1.0, 0.0,  0.0, 0.0, 1.0 ]
+  -
+    id: 10
+    name: 'left grip thumb-up'
+    use: false
+    direction:
+      x: 0.0
+      y: -1.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, -1.0,  0.0, -1.0, 0.0,  -1.0, 0.0, 0.0 ]
+  -
+    id: 11
+    name: 'left grip thumb-front'
+    use: true
+    direction:
+      x: 0.0
+      y: -1.0
+      z: 0.0
+    rotation_matrix: [ 1.0, 0.0, 0.0,  0.0, -1.0, 0.0,  0.0, 0.0, -1.0 ]
+  -
+    id: 12
+    name: 'left grip thumb-down'
+    use: false
+    direction:
+      x: 0.0
+      y: -1.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, 1.0,  0.0, -1.0, 0.0,  1.0, 0.0, 0.0 ]
+  -
+    id: 13
+    name: 'back grip thumb-right'
+    use: false
+    direction:
+      x: -1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 1.0, 0.0,  -1.0, 0.0, 0.0,  0.0, 0.0, 1.0 ]
+  -
+    id: 14
+    name: 'back grip thumb-up'
+    use: false
+    direction:
+      x: -1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, -1.0,  -1.0, 0.0, 0.0,  0.0, 1.0, 0.0 ]
+  -
+    id: 15
+    name: 'back grip thumb-left'
+    use: true
+    direction:
+      x: -1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, -1.0, 0.0,  -1.0, 0.0, 0.0,  0.0, 0.0, -1.0 ]
+  -
+    id: 16
+    name: 'back grip thumb-down'
+    use: false
+    direction:
+      x: -1.0
+      y: 0.0
+      z: 0.0
+    rotation_matrix: [ 0.0, 0.0, 1.0,  -1.0, 0.0, 0.0,  0.0, -1.0, 0.0 ]
+  -
+    id: 17
+    name: 'top grip thumb-front'
+    use: false
+    direction:
+      x: 0.0
+      y: 0.0
+      z: -1.0
+    rotation_matrix: [ 1.0, 0.0, 0.0,  0.0, 0.0, -1.0,  0.0, 1.0, 0.0 ]
+  -
+    id: 18
+    name: 'top grip thumb-left'
+    use: false
+    direction:
+      x: 0.0
+      y: 0.0
+      z: -1.0
+    rotation_matrix: [ 0.0, -1.0, 0.0,  0.0, 0.0, -1.0,  1.0, 0.0, 0.0 ]
+  -
+    id: 19
+    name: 'top grip thumb-back'
+    use: false
+    direction:
+      x: 0.0
+      y: 0.0
+      z: -1.0
+    rotation_matrix: [ -1.0, 0.0, 0.0,  0.0, 0.0, -1.0,  0.0, -1.0, 0.0 ]
+  -
+    id: 20
+    name: 'top grip thumb-right'
+    use: true
+    direction:
+      x: 0.0
+      y: 0.0
+      z: -1.0
+    rotation_matrix: [ 0.0, 1.0, 0.0,  0.0, 0.0, -1.0,  -1.0, 0.0, 0.0 ]
+  -
+    id: 21
+    name: 'bottom grip thumb-front'
+    use: true
+    direction:
+      x: 0.0
+      y: 0.0
+      z: 1.0
+    rotation_matrix: [ 1.0, 0.0, 0.0,  0.0, 0.0, 1.0,  0.0, -1.0, 0.0 ]
+  -
+    id: 22
+    name: 'bottom grip thumb-right'
+    use: true
+    direction:
+      x: 0.0
+      y: 0.0
+      z: 1.0
+    rotation_matrix: [ 0.0, 1.0, 0.0,  0.0, 0.0, 1.0,  1.0, 0.0, 0.0 ]
+  -
+    id: 23
+    name: 'bottom grip thumb-back'
+    use: true
+    direction:
+      x: 0.0
+      y: 0.0
+      z: 1.0
+    rotation_matrix: [ -1.0, 0.0, 0.0,  0.0, 0.0, 1.0,  0.0, 1.0, 0.0 ]
+  -
+    id: 24
+    name: 'bottom grip thumb-left'
+    use: true
+    direction:
+      x: 0.0
+      y: 0.0
+      z: 1.0
+    rotation_matrix: [ 0.0, -1.0, 0.0,  0.0, 0.0, 1.0,  -1.0, 0.0, 0.0 ]
+canonical_grasps:
+  -
+    id: 1
+    grasp_type: 1
+    name: 'Large Diameter'
+    use: true
+    pre_grasp_offset_distance: 0.1
+    palm_canonical_orientation:
+      angle: 0.0
+      axis: 
+        x: 0.0
+        y: 0.0
+        z: 1.0
+    palm_offset:
+      orientation:
+        angle: 0.0
+        axis: 
+          x: 0.0
+          y: 0.0
+          z: 1.0      
+      position: 
+        x: 0.00
+        y: 0.00
+        z: 0.00
+    orientation_perturbation: 
+      angle_step: 5.0
+      n_perturbs: 0
+      axis:
+        x: 1.0
+        y: 0.0
+        z: 0.0    
+    open_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.5
+
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+    closed_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.4
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+  -
+    id: 6
+    grasp_type: 1
+    name: 'Prismatic 4 finger'
+    use: false
+    pre_grasp_offset_distance: 0.02
+    palm_canonical_orientation:
+      angle: 0.0
+      axis: 
+        x: 0.0
+        y: 0.0
+        z: 1.0
+    palm_offset:
+      orientation:
+        angle: 10.0
+        axis: 
+          x: 0.0
+          y: 0.0
+          z: 1.0      
+      position: 
+        x: 0.00
+        y: 0.00
+        z: 0.00
+    orientation_perturbation: 
+      angle_step: 2.0
+      n_perturbs: 0
+      axis:
+        x: 0.0
+        y: 0.0
+        z: 1.0   
+    open_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.5
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+    closed_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.4
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+  -
+    id: 9
+    grasp_type: 1
+    n_perturbs: 0
+    name: 'Pinch'
+    use: false
+    pre_grasp_offset_distance: 0.02
+    palm_canonical_orientation:
+      angle: 20.0
+      axis: 
+        x: 0.0
+        y: 0.0
+        z: 1.0
+    palm_offset:
+      orientation:
+        angle: 10.0
+        axis: 
+          x: 0.0
+          y: 1.0
+          z: 0.0      
+      position: 
+        x: 0.00
+        y: 0.00
+        z: -0.033
+    open_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.5
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+    closed_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.4
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+  -
+    id: 14
+    grasp_type: 1
+    name: 'Tripod'
+    use: false
+    pre_grasp_offset_distance: 0.02
+    palm_canonical_orientation:
+      angle: 0.0
+      axis: 
+        x: 0.0
+        y: 0.0
+        z: 1.0
+    palm_offset:
+      orientation:
+        angle: -20.0
+        axis: 
+          x: 0.0
+          y: 1.0
+          z: 0.0      
+      position: 
+        x: 0.00
+        y: 0.00
+        z: -0.033
+    orientation_perturbation:
+      angle_step: 2.0
+      n_perturbs: 2
+      axis:
+        x: 0.0
+        y: 0.0
+        z: 1.0
+    open_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.5
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+    closed_hand_posture:
+      joint_angles:
+        -
+          name: 'FFJ4'
+          position: -10.0
+        -
+          name: 'FFJ3'
+          position: 0.4
+        -
+          name: 'FFJ0'
+          position: 0.4        
+        -
+          name: 'MFJ4'
+          position: 0.0
+        -
+          name: 'MFJ3'
+          position: 0.4
+        -
+          name: 'MFJ0'
+          position: 0.4
+        -
+          name: 'RFJ4'
+          position: -5.0
+        -
+          name: 'RFJ3'
+          position: 0.4
+        -
+          name: 'RFJ0'
+          position: 0.4
+        -
+          name: 'LFJ5'
+          position: 0.4
+        -
+          name: 'LFJ4'
+          position: -15.0
+        -
+          name: 'LFJ3'
+          position: 0.4
+        -
+          name: 'LFJ0'
+          position: 0.4
+        -
+          name: 'THJ5'
+          position: 0.0
+        -
+          name: 'THJ4'
+          position: 0.0
+        -
+          name: 'THJ3'
+          position: 0.0
+        -
+          name: 'THJ2'
+          position: 0.0
+        -
+          name: 'THJ1'
+          position: 0.0
+
+
