@@ -12,7 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   image_transport
   eigen_conversions
-  ist_generate_grasp_candidates
 )
 
 find_package(Boost REQUIRED)
