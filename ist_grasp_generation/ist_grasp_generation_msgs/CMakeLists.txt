@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 	actionlib_msgs
         trajectory_msgs
         tabletop_object_segmentation_online
+	perception_msgs
 )
 
 ## Generate services in the 'srv' folder
@@ -45,6 +46,7 @@ generate_messages(DEPENDENCIES
 	actionlib_msgs
         trajectory_msgs
         tabletop_object_segmentation_online
+        perception_msgs
 )
 
 ## DEPENDS: system dependencies of this project that dependent projects also need

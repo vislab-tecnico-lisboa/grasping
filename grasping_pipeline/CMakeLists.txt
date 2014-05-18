@@ -98,21 +98,23 @@ include_directories(include
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a cpp library
-add_library(grasping_pipeline
-   src/GraspingPipeline.cpp )
-
 ## Declare a cpp executable
-# add_executable(grasping_pipeline_node src/grasping_pipeline_node.cpp)
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(grasping_pipeline_node grasping_pipeline_generate_messages_cpp)
+add_executable(grasping_pipeline_server  src/GraspingPipeline.cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(grasping_pipeline_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(grasping_pipeline_server
+   ${catkin_LIBRARIES}
+)
+
+
+## Declare a cpp executable
+add_executable(grasping_pipeline_client  src/GraspingPipeline.cpp)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(grasping_pipeline_client
+   ${catkin_LIBRARIES}
+)
+
 
 #############
 ## Install ##
