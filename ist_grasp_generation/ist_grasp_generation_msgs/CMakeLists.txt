@@ -36,6 +36,7 @@ add_action_files(
   GetGeneratedGrasps.action
   GenerateTrajectories.action
   GenerateGrasps.action
+  Grasping.action
 )
 
 generate_messages(DEPENDENCIES 
