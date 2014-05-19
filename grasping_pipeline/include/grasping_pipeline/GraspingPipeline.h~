@@ -98,7 +98,7 @@ public:
         ist_grasp_generation_msgs::GenerateGraspsGoal grasps_goal;
 
         grasps_goal.object_to_grasp_id=0;
-        grasps_goal.object_list=detect_objects.getResult()->object_list;
+        grasps_goal.object_list=detect_objects.getResult()->objects;
         generate_grasps.sendGoal(grasps_goal);
 
         //wait for the action to return

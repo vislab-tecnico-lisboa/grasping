@@ -7,7 +7,6 @@ project(ist_grasping_point_prediction)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   ist_grasp_generation_msgs
-  visualization_msgs
   cv_bridge
   std_msgs
   image_transport
@@ -19,6 +18,13 @@ find_package(Eigen REQUIRED)
 find_package(PCL REQUIRED)
 find_package(VTK REQUIRED)
 
+## DEPENDS: system dependencies of this project that dependent projects also need
+catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES grasping_point_prediction
+  CATKIN_DEPENDS ist_grasp_generation_msgs cv_bridge
+#  DEPENDS system_lib
+)
 
 include_directories(include
   ${catkin_INCLUDE_DIRS}
@@ -33,6 +39,8 @@ link_directories(
   ${Eigen_LIBRARY_DIRS}
   ${PCL_LIBRARY_DIRS}
 )
+
+
 
 
 #common commands for building c++ executables and libraries

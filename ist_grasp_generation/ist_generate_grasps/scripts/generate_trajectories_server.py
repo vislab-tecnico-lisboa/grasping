@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-import roslib; roslib.load_manifest('ist_generate_grasps')
 import rospy
 import numpy
 import actionlib
@@ -9,8 +8,6 @@ import tf
 from ist_grasp_generation_msgs.srv import *
 from ist_grasp_generation_msgs.msg import *
 
-#Arne stuff
-from motion_interface_msgs.msg import * 
 
 def numpyToMsg (hmatrix):
     pose=geometry_msgs.msg.Pose() 
@@ -37,8 +34,8 @@ class GenerateTrajectoriesAction(object):
     self._action_name = name
     self._as = actionlib.SimpleActionServer(self._action_name, ist_grasp_generation_msgs.msg.GenerateTrajectoriesAction, execute_cb=self.execute_cb)
     self._as.start()
-    self._use_arne_planner=rospy.get_param('/ist_generate_trajectories_server/use_arne_planner')
-    #print 'use arne_planner', self._use_arne_planner
+
+
     
   def execute_cb(self, goal):
 
@@ -130,27 +127,8 @@ class GenerateTrajectoriesAction(object):
     pose_stamped.header.frame_id='base_link'
     pose_stamped.header.stamp=rospy.Time.now()
     pose_stamped.pose=numpyToMsg(hand_world_hmatrix)
-    print 'ola'
-    print str(rospy.get_param('/ist_generate_trajectories_server/use_arne_planner'))
-    if rospy.get_param('/ist_generate_trajectories_server/use_arne_planner'):
-    #if self._use_arne_planner:
-        response=self.arne_client(pose_stamped, object_to_grasp, collision_objects)
-        if response==False:
-            print 'Something went wrong with planner'
-            grip_state.hand_state.grasp_pose.trajectory_status=-1;
-            return
-        if response.error_code == 0:
-            
-            grip_state.hand_state.grasp_pose.trajectory_status=1;
-            grip_state.hand_state.grasp_pose.trajectory=response.resulting_trajectory
-	    print pose_stamped
-	    #exit()
-        else:
-            grip_state.hand_state.grasp_pose.trajectory_status=-1;
 
-        print 'error code:' , response.error_code
-    else: # use ROS motion planner
-        try:      
+    try:      
             plan_trajectory_srv = rospy.ServiceProxy('motion_planning',MotionPlan)
             myReq = MotionPlanRequest()
             myReq.mode=1
@@ -163,7 +141,7 @@ class GenerateTrajectoriesAction(object):
 
             else:
                 grip_state.hand_state.grasp_pose.trajectory_status=-1;
-        except rospy.ServiceException, e:
+    except rospy.ServiceException, e:
             print "Motion planning service call failed: %s"%e
     return grip_state
 

@@ -6,18 +6,26 @@ project(ist_grasp_candidate_list_manager)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  ist_grasp_generation_msgs
   visualization_msgs
   cv_bridge
   std_msgs
-  image_transport
   eigen_conversions
+  ist_grasp_generation_msgs
   ist_generate_grasp_candidates
+  image_transport
 )
 
 find_package(Boost REQUIRED)
 find_package(Eigen REQUIRED)
 find_package(PCL REQUIRED)
+
+## DEPENDS: system dependencies of this project that dependent projects also need
+catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES reachability
+  CATKIN_DEPENDS  ist_grasp_generation_msgs visualization_msgs cv_bridge std_msgs eigen_conversions    ist_grasp_generation_msgs ist_generate_grasp_candidates
+#  DEPENDS system_lib
+)
 
 
 include_directories(include

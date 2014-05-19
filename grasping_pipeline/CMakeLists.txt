@@ -108,7 +108,7 @@ target_link_libraries(grasping_pipeline_server
 
 
 ## Declare a cpp executable
-add_executable(grasping_pipeline_client  src/GraspingPipeline.cpp)
+add_executable(grasping_pipeline_client  src/GraspingPipelineClient.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(grasping_pipeline_client

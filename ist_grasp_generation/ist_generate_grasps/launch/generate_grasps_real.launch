@@ -1,6 +1,6 @@
 <launch>
 	<!-- Grasp motion planner grasp candidates -->
-  <include file="$(find omnirob_arm_navigation)/launch/planning_scene_warehouse_viewer_omnirob_real.launch" />   <!-- real robot -->
+  <!--<include file="$(find omnirob_arm_navigation)/launch/planning_scene_warehouse_viewer_omnirob_real.launch" /> -->  <!-- real robot -->
 
 	<!-- Grasp candidates generator -->
   <include file="$(find ist_generate_grasp_candidates)/launch/ist_generate_grasp_candidates.launch" />

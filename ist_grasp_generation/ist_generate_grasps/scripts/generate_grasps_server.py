@@ -172,15 +172,15 @@ class GenerateGraspsAction(object):
                 break
 
         # get task
-        for task_index in range(0,len(part.tasks)):
-            if part.tasks[task_index].id == obj.task.id:
-                task=part.tasks[task_index] # task for the given object part
-                break
+        #for task_index in range(0,len(part.tasks)):
+        #    if part.tasks[task_index].id == obj.task.id:
+        #        task=par.tasks[task_index] # task for the given object part
+        #        break
                 
                                
 #         print 'part id:' +str(part_id)+ ' task id: ' + str(task.id) + ' task likelihood: ' + str(task.likelihood) + ' grip likeli: ' + str(grip.success_probability)
         if use_plinio:
-            probability=grip.success_probability*task.likelihood
+            probability=grip.success_probability#*task.likelihood
         else:
             probability=task.likelihood
     

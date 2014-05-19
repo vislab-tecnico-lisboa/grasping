@@ -5,6 +5,7 @@
  *      Author: Rui P. Figueiredo
  */
 
+
 #include "grasp_candidate_list_manager/grasp_candidate_list_manager.h"
 
 std::vector<std::vector<bool> > GraspCandidateListManager::grip_equivalence; // map of size type and shape type (we don't consider symmetry)

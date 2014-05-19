@@ -603,12 +603,12 @@ void RosGenerateGraspsActionServer::executeCB(const ist_grasp_generation_msgs::G
 				continue;
 			}
 
-			if(!goal->object.data.actionable_parts_data[r].part.use) // Only generate grasps for usable object parts
+			/*if(!goal->object.data.actionable_parts_data[r].part.use) // Only generate grasps for usable object parts
 			{
 				continue;
 			}
 			else
-				ROS_DEBUG_STREAM("Im gonna use part" << (int)goal->object.data.actionable_parts_data[r].part.id);
+				ROS_DEBUG_STREAM("Im gonna use part" << (int)goal->object.data.actionable_parts_data[r].part.id);*/
 
 
 
