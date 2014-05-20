@@ -118,11 +118,11 @@ class GenerateGraspsAction(object):
     # 4. Add objects to collision environment
     
     # publish the feedback
-    self._feedback.state="Add objects to collision environment..." 
-    self._feedback.progress=0.50
-    self._as.publish_feedback(self._feedback)
+    #self._feedback.state="Add objects to collision environment..." 
+    #self._feedback.progress=0.50
+    #self._as.publish_feedback(self._feedback)
    
-    self.collision_environment(goal.collision_objects, goal.table, 1)
+    #self.collision_environment(goal.collision_objects, goal.table, 1)
     
     # 5. Grasp motion planning (kinematics and collisions)
     
@@ -130,10 +130,10 @@ class GenerateGraspsAction(object):
     self._feedback.state="Grasps motion planning..." 
     self._feedback.progress=0.75
     self._as.publish_feedback(self._feedback)
-    print 'size before:'+str(len(goal.collision_objects.objects))
-    collision_objects=list(goal.collision_objects.objects)
-    collision_objects.pop(goal.object_to_grasp_id)
-    print 'size after:'+str(len(goal.collision_objects.objects))
+    #print 'size before:'+str(len(goal.collision_objects.objects))
+    #collision_objects=list(goal.collision_objects.objects)
+    #collision_objects.pop(goal.object_to_grasp_id)
+    #print 'size after:'+str(len(goal.collision_objects.objects))
 
     collision_objects=[] #TIRAR ISTO
 
@@ -258,11 +258,13 @@ class GenerateGraspsAction(object):
     print "Waiting for generate trajectories action server to start...\n";
     # Creates the SimpleActionClient, passing the type of the action
     # (GetGeneratedGraspsAction) to the constructor.
-    client = actionlib.SimpleActionClient('ist_generate_trajectories_server', ist_grasp_generation_msgs.msg.GenerateTrajectoriesAction)
+    client = actionlib.SimpleActionClient('grasp_planning_server', ist_grasp_generation_msgs.msg.GenerateTrajectoriesAction)
     # Waits until the action server has started up and started
     # listening for goals.
     client.wait_for_server()
      # Creates a goal to send to the action server.
+    #print object_to_grasp 
+    #print 'ola'
     goal = ist_grasp_generation_msgs.msg.GenerateTrajectoriesGoal(grip_list=grip_list,object_to_grasp=object_to_grasp,collision_objects=collision_objects)
 
     # Sends the goal to the action server.
