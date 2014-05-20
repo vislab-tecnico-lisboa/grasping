@@ -222,7 +222,7 @@ canonical_grips:
   -
     id: 3
     name: 'right grip thumb-back'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 1.0
@@ -258,7 +258,7 @@ canonical_grips:
   -
     id: 7
     name: 'front grip thumb-right'
-    use: true
+    use: false
     direction:
       x: 1.0
       y: 0.0
@@ -294,7 +294,7 @@ canonical_grips:
   -
     id: 11
     name: 'left grip thumb-front'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: -1.0
@@ -330,7 +330,7 @@ canonical_grips:
   -
     id: 15
     name: 'back grip thumb-left'
-    use: true
+    use: false
     direction:
       x: -1.0
       y: 0.0
@@ -384,7 +384,7 @@ canonical_grips:
   -
     id: 21
     name: 'bottom grip thumb-front'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0
@@ -393,7 +393,7 @@ canonical_grips:
   -
     id: 22
     name: 'bottom grip thumb-right'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0
@@ -402,7 +402,7 @@ canonical_grips:
   -
     id: 23
     name: 'bottom grip thumb-back'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0
@@ -411,7 +411,7 @@ canonical_grips:
   -
     id: 24
     name: 'bottom grip thumb-left'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0

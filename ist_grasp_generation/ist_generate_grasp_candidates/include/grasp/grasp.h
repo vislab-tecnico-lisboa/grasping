@@ -70,6 +70,9 @@ class Grasp
 		// Perturbation associated with this grasp
 		GraspPerturbation grasp_perturbation;
 
+        // Hand canonical pose
+        Eigen::Transform<double, 3, Eigen::Affine, Eigen::DontAlign> hand_canonical_pose;
+
 		// Object type associated with this grasp
 		boost::shared_ptr<ObjectType> object_type;
 

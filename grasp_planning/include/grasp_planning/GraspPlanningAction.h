@@ -15,6 +15,91 @@
 #include <tf/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 
+
+void print_grip(int grip_id)
+{
+    switch (grip_id)
+    {
+    case ist_msgs::GripDirection::BACK_THUMB_DOWN:
+        std::cout << "BACK THUMB DOWN" << std::endl;
+        break;
+    case ist_msgs::GripDirection::BACK_THUMB_LEFT:
+        std::cout << "BACK THUMB LEFT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::BACK_THUMB_RIGHT:
+        std::cout << "BACK THUMB RIGHT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::BACK_THUMB_UP:
+        std::cout << "BACK THUMB UP" << std::endl;
+        break;
+
+    case ist_msgs::GripDirection::BOTTOM_THUMB_BACK:
+        std::cout << "BOTTOM THUMB BACK" << std::endl;
+        break;
+    case ist_msgs::GripDirection::BOTTOM_THUMB_FRONT:
+        std::cout << "BOTTOM THUMB FRONT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::BOTTOM_THUMB_LEFT:
+        std::cout << "BOTTOM THUMB LEFT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::BOTTOM_THUMB_RIGHT:
+        std::cout << "BOTTOM THUMB RIGHT" << std::endl;
+        break;
+
+    case ist_msgs::GripDirection::FRONT_THUMB_DOWN:
+        std::cout << "FRONT THUMB DOWN" << std::endl;
+        break;
+    case ist_msgs::GripDirection::FRONT_THUMB_LEFT:
+        std::cout << "FRONT THUMB LEFT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::FRONT_THUMB_RIGHT:
+        std::cout << "FRONT THUMB RIGHT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::FRONT_THUMB_UP:
+        std::cout << "FRONT THUMB UP" << std::endl;
+        break;
+
+    case ist_msgs::GripDirection::LEFT_THUMB_BACK:
+        std::cout << "LEFT THUMB BACK" << std::endl;
+        break;
+    case ist_msgs::GripDirection::LEFT_THUMB_DOWN:
+        std::cout << "LEFT THUMB DOWN" << std::endl;
+        break;
+    case ist_msgs::GripDirection::LEFT_THUMB_FRONT:
+        std::cout << "LEFT THUMB FRONT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::LEFT_THUMB_UP:
+        std::cout << "LEFT THUMB UP" << std::endl;
+        break;
+
+    case ist_msgs::GripDirection::RIGHT_THUMB_BACK:
+        std::cout << "RIGHT THUMB BACK" << std::endl;
+        break;
+    case ist_msgs::GripDirection::RIGHT_THUMB_DOWN:
+        std::cout << "RIGHT THUMB DOWN" << std::endl;
+        break;
+    case ist_msgs::GripDirection::RIGHT_THUMB_FRONT:
+        std::cout << "RIGHT THUMB FRONT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::RIGHT_THUMB_UP:
+        std::cout << "RIGHT THUMB UP" << std::endl;
+        break;
+
+    case ist_msgs::GripDirection::TOP_THUMB_BACK:
+        std::cout << "TOP THUMB BACK" << std::endl;
+        break;
+    case ist_msgs::GripDirection::TOP_THUMB_FRONT:
+        std::cout << "TOP THUMB FRONT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::TOP_THUMB_LEFT:
+        std::cout << "TOP THUMB LEFT" << std::endl;
+        break;
+    case ist_msgs::GripDirection::TOP_THUMB_RIGHT:
+        std::cout << "TOP THUMB RIGHT" << std::endl;
+        break;
+    }
+}
+
 class GraspPlanningAction
 {
 public:
@@ -26,15 +111,10 @@ public:
         as_.registerPreemptCallback(boost::bind(&GraspPlanningAction::preemptCB, this));
 
         //subscribe to the data topic of interest
-        //sub_ = nh_.subscribe("/random_number", 1, &GraspPlanningAction::analysisCB, this);
         as_.start();
 
         group.setPoseReferenceFrame("base_link");
         group.setEndEffectorLink("end_effector");
-
-        // We will use the :planning_scene_interface:`PlanningSceneInterface`
-        // class to deal directly with the world.
-
 
         // (Optional) Create a publisher for visualizing plans in Rviz.
         display_publisher = nh_.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
@@ -55,9 +135,46 @@ public:
         tf::StampedTransform transform;
         //object_to_grasp.state.graspable_object.potential_models[0].pose.pose;
 
+
+        // Adding/Removing Objects and Attaching/Detaching Objects
+        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        // First, we will define the collision object message.
+        moveit_msgs::CollisionObject collision_object;
+        collision_object.header.frame_id = group.getPlanningFrame();
+
+        /* The id of the object is used to identify it. */
+        collision_object.id = object_to_grasp.collision_name;
+
+        /* Define a box to add to the world. */
+        shape_msgs::SolidPrimitive primitive;
+
+        // A pose for the box (specified relative to frame_id, representing the table)
+        primitive.type = primitive.BOX;
+        primitive.dimensions.resize(3);
+        primitive.dimensions[0] = 2.0;
+        primitive.dimensions[1] = 2.0;
+        primitive.dimensions[2] = 0.1;
+
+        geometry_msgs::Pose object_pose;
+        object_pose.orientation.w = 1.0;
+        object_pose.position.x = 0.0;
+        object_pose.position.y = 0.0;
+        object_pose.position.z = -0.055;
+
+        collision_object.primitives.push_back(primitive);
+        collision_object.primitive_poses.push_back(object_pose);
+        collision_object.operation = collision_object.ADD;
+
+        std::vector<moveit_msgs::CollisionObject> collision_objects;
+        collision_objects.push_back(collision_object);
+
+        // Now, let's add the collision object into the world
+        ROS_INFO("Add an object into the world");
+        planning_scene_interface.addCollisionObjects(collision_objects);
+
+
         try
         {
-            ROS_INFO("WAIT FOR TRANSFORM");
             ros::Time now = ros::Time::now();
             listener.waitForTransform("base_link", object_to_grasp.collision_name,
                                       ros::Time(0), ros::Duration(3.0));
@@ -77,11 +194,13 @@ public:
 
         //ist_msgs::Object object_to_grasp= goal_->object_to_grasp;
         ist_msgs::GripList grip_list=goal_->grip_list;
-        ROS_INFO("aqui...");
+        moveit::planning_interface::MoveGroup::Plan my_plan;
+
+        ist_msgs::GripState chosen_grip;
 
         for(int i=0;i< grip_list.grip_states.size();++i)
         {
-            ROS_INFO("trying grip 1");
+            //ROS_INFO("trying grip:",grip_list.grip_states[i].);
             Eigen::Affine3d transform_grip_eigen;
 
             tf::poseMsgToEigen(grip_list.grip_states[i].hand_state.grasp_pose.pose.pose,transform_grip_eigen);
@@ -90,29 +209,16 @@ public:
 
             group.setPoseTarget(final_transform);
 
-            moveit::planning_interface::MoveGroup::Plan my_plan;
-            ROS_INFO("planning...");
-
             bool good_plan=group.plan(my_plan);
 
-            ROS_INFO("Visualizing plan 1 (pose goal) %s",good_plan?"":"FAILED");
-            /* Sleep to give Rviz time to visualize the plan. */
-            sleep(5.0);
-
-            if (1)
-            {
-              ROS_INFO("Visualizing plan 1 (again)");
-              display_trajectory.trajectory_start = my_plan.start_state_;
-              display_trajectory.trajectory.push_back(my_plan.trajectory_);
-              display_publisher.publish(display_trajectory);
-              /* Sleep to give Rviz time to visualize the plan. */
-              sleep(5.0);
-            }
-
             if(good_plan)
-                group.asyncMove();
+            {
+                group.asyncExecute(my_plan);
+                chosen_grip=grip_list.grip_states[i];
+                print_grip((int)chosen_grip.grip_pose.direction.id);
+                break;
+            }
         }
-
 
 
         group.setPoseTarget(transform_object_eigen);

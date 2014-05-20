@@ -18,12 +18,12 @@ Grasp::Grasp(const boost::shared_ptr<CanonicalGrasp> & _canonical_grasp, const R
 		object_part(_object_part),
 		//offset_rotation(canonical_grasp->pose_offset),
 		//offset_translation(canonical_grasp->pose_offset.translation()),
-		grasp_perturbation(_perturbation, canonical_grasp->perturbation_angle_step, canonical_grasp->perturbation_rotation_axis)
+        grasp_perturbation(_perturbation, canonical_grasp->perturbation_angle_step, canonical_grasp->perturbation_rotation_axis)
+
 {
-	id=computeId(object_type->id, object_part->id, canonical_grasp->number, grip.canonical_grip->type, reach.reach_type->id, grasp_perturbation.perturbation+canonical_grasp->n_perturbs);
+    id=computeId(object_type->id, object_part->id, canonical_grasp->number, grip.canonical_grip->type, reach.reach_type->id, grasp_perturbation.perturbation+canonical_grasp->n_perturbs);
 
-
-	///////////////////////////////
+    ///////////////////////////////
 	// GRASP AND PRE GRASP POSES //
 	///////////////////////////////
 
@@ -33,12 +33,22 @@ Grasp::Grasp(const boost::shared_ptr<CanonicalGrasp> & _canonical_grasp, const R
 	Eigen::Transform<double, 3, Eigen::Affine, Eigen::DontAlign> pre_grasp_position_(Eigen::Translation3d(pre_grasp_position.array() * - grip.canonical_grip->direction.array()));
 	Eigen::Transform<double, 3, Eigen::Affine, Eigen::DontAlign> reach_position_(Eigen::Translation3d(grasp_reach_position.array() * - grip.canonical_grip->direction.array()));
 
-	grasp_object_center_pose    =reach_position_*grip.pose*canonical_grasp->pose_offset*canonical_grasp->orientation*grasp_perturbation.orientation;
+
+    // Transform from handle frame definition to ros frame definition
+    Eigen::Matrix3d handle_to_ros_palm_rotation_matrix;
+    handle_to_ros_palm_rotation_matrix << 1, 0, 0,
+                                          0, 0,-1,
+                                          0, 1, 0;
+    hand_canonical_pose=Eigen::Translation3d(0.0 ,0.0 , 0.0)*Eigen::AngleAxisd(handle_to_ros_palm_rotation_matrix);
+    //Eigen::Transform<double, 3, Eigen::Affine> ros_palm_to_handle_transform=handle_to_ros_palm_transform.inverse();
+    //Eigen::Transform<double, 3, Eigen::Affine> grasp_pose=grasp->pose*ros_palm_to_handle_transform;
+
+    grasp_object_center_pose    =canonical_grasp->pose_offset*canonical_grasp->orientation*grasp_perturbation.orientation*hand_canonical_pose.inverse();
 	grasp_object_center_pre_pose=pre_grasp_position_*grasp_object_center_pose;
 
-	pose=grasp_object_center_pose;
-	pre_pose=grasp_object_center_pre_pose;
-};
+    pose=reach_position_*grip.pose*grasp_object_center_pose;
+    pre_pose=pre_grasp_position_*pose;
+}
 
 
 
@@ -124,7 +134,7 @@ void Grasp::setParameters(const double _normalized_yaw,
 						  const double _normalized_roll,
 						  const double _normalized_x,
 						  const double _normalized_y,
-						  const double _normalized_z,
+                          const double _normalized_z,
 						  const double _normalized_reach_distance,
 						  const double _normalized_object_dimension_x,
 						  const double _normalized_object_dimension_y,
@@ -138,8 +148,18 @@ void Grasp::setParameters(const double _normalized_yaw,
 
 void Grasp::updateGrasp(const Eigen::Vector3d & _object_part_dimensions, const Eigen::Transform<double, 3, Eigen::Affine, Eigen::DontAlign> & _object_part_pose)
 {
-	pose=_object_part_pose*grasp_object_center_pose;
-	pre_pose=_object_part_pose*grasp_object_center_pre_pose;
+    grip.gripUpdate(_object_part_dimensions);
+
+
+    Eigen::Vector3d pre_grasp_position(canonical_grasp->pre_grasp_distance, canonical_grasp->pre_grasp_distance, canonical_grasp->pre_grasp_distance);
+    Eigen::Vector3d grasp_reach_position(reach.distance, reach.distance, reach.distance);
+
+    Eigen::Transform<double, 3, Eigen::Affine, Eigen::DontAlign> pre_grasp_position_(Eigen::Translation3d(pre_grasp_position.array() * - grip.canonical_grip->direction.array()));
+    Eigen::Transform<double, 3, Eigen::Affine, Eigen::DontAlign> reach_position_(Eigen::Translation3d(grasp_reach_position.array() * - grip.canonical_grip->direction.array()));
+
+
+    pose=_object_part_pose*reach_position_*grip.pose*grasp_object_center_pose;
+    pre_pose=pre_grasp_position_*pose;
 }
 
 unsigned int Grasp::computeId(const unsigned int & object_id, const unsigned int & object_part_id, const unsigned int & grasp_id, const unsigned int & grip_id, const unsigned int & reach_id, const unsigned int & perturbation_id)

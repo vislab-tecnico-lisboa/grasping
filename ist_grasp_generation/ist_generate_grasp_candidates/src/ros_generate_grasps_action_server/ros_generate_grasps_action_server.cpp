@@ -173,12 +173,10 @@ RosGenerateGraspsActionServer::RosGenerateGraspsActionServer(std::string name) :
 				for(int32_t object_part_type_index=0; object_part_type_index < object_part_types.size(); ++object_part_type_index)
 				{
 					int part_type_id;
-					std::cout << object_part_type_index << std::endl;
-					part_type_id=static_cast<int>(object_part_types[object_part_type_index]["id"]);
+                    part_type_id=static_cast<int>(object_part_types[object_part_type_index]["id"]);
 
 					boost::shared_ptr<ObjectPart> new_part(new ObjectPart(part_type_id));
 					object_type->object_parts.push_back(new_part);
-					std::cout << object_part_type_index << std::endl;
 
 				}
 
@@ -612,13 +610,15 @@ void RosGenerateGraspsActionServer::executeCB(const ist_grasp_generation_msgs::G
 
 
 
-			Eigen::Vector3d dimensions(goal->object.data.actionable_parts_data[r].part.bounding_box.x, goal->object.data.actionable_parts_data[r].part.bounding_box.y, goal->object.data.actionable_parts_data[r].part.bounding_box.z);
+            Eigen::Vector3d dimensions(goal->object.data.actionable_parts_data[r].part.bounding_box.x,
+                                       goal->object.data.actionable_parts_data[r].part.bounding_box.y,
+                                       goal->object.data.actionable_parts_data[r].part.bounding_box.z);
 //			if(goal->object.data.actionable_parts_data[r].part.id!=4)
 //				continue;
 			Eigen::Transform<double, 3, Eigen::Affine> object_part_pose;
-			tf::poseMsgToEigen(goal->object.data.actionable_parts_data[r].part.pose.pose, object_part_pose);
-			//std::cout << "Object id: " << graspability_states_it->second->object_type->id << " Region: "<< graspability_states_it->second->object_part->id << " POSES:" << goal->object.data.actionable_parts_data[r].part.pose.pose << std::endl;
-			// Update grasp
+            tf::poseMsgToEigen(goal->object.data.actionable_parts_data[r].part.pose.pose, object_part_pose);
+
+            // Update grasp
 			graspability_states_it->second->updateGrasp(dimensions, object_part_pose);
 
 			double _normalized_yaw;
@@ -877,22 +877,22 @@ ist_msgs::HandState RosGenerateGraspsActionServer::fillHandStateMessage(const bo
 	// GRASP //
 	///////////
 
-	// Transform from handle frame definition to ros frame definition
+    // Transform from handle frame definition to ros frame definition
 //	Eigen::Matrix3d handle_to_ros_palm_rotation_matrix;
 //	handle_to_ros_palm_rotation_matrix << 0, 0, 1,
 //								          0,-1, 0,
 //								          1, 0, 0; // BOLAS È ISTO QUE ESTA A LIXAR ISTO TUDO!!!!!!!
 
-	//ROS_INFO("valores offsets: %f, %f, %f", palm_center_offset_x,palm_center_offset_y,palm_center_offset_z);
+    //ROS_INFO("valores offsets: %f, %f, %f", palm_center_offset_x,palm_center_offset_y,palm_center_offset_z);
 //	Eigen::Transform<double, 3, Eigen::Affine> handle_to_ros_palm_transform=Eigen::Translation3d(palm_center_offset_x ,palm_center_offset_y , palm_center_offset_z)*Eigen::AngleAxisd(handle_to_ros_palm_rotation_matrix);
 
-	//Eigen::Transform<double, 3, Eigen::Affine> ros_palm_to_handle_transform=handle_to_ros_palm_transform.inverse();
+    //Eigen::Transform<double, 3, Eigen::Affine> ros_palm_to_handle_transform=handle_to_ros_palm_transform.inverse();
 
 
 //	Eigen::Transform<double, 3, Eigen::Affine>	grasp_pose=grasp->pose*ros_palm_to_handle_transform;
 
 
-	Eigen::Transform<double, 3, Eigen::Affine>	grasp_pose=grasp->pose;
+    Eigen::Transform<double, 3, Eigen::Affine>	grasp_pose=grasp->pose;
 
 	// Grasp hand pose (relatively to the object frame)
 	geometry_msgs::PoseStamped grasp_pose_msg;
