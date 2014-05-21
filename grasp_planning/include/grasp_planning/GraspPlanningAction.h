@@ -18,6 +18,7 @@
 
 void print_grip(int grip_id)
 {
+
     switch (grip_id)
     {
     case ist_msgs::GripDirection::BACK_THUMB_DOWN:
@@ -134,44 +135,6 @@ public:
         tf::TransformListener listener;
         tf::StampedTransform transform;
         //object_to_grasp.state.graspable_object.potential_models[0].pose.pose;
-
-
-        // Adding/Removing Objects and Attaching/Detaching Objects
-        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        // First, we will define the collision object message.
-        moveit_msgs::CollisionObject collision_object;
-        collision_object.header.frame_id = group.getPlanningFrame();
-
-        /* The id of the object is used to identify it. */
-        collision_object.id = object_to_grasp.collision_name;
-
-        /* Define a box to add to the world. */
-        shape_msgs::SolidPrimitive primitive;
-
-        // A pose for the box (specified relative to frame_id, representing the table)
-        primitive.type = primitive.BOX;
-        primitive.dimensions.resize(3);
-        primitive.dimensions[0] = 2.0;
-        primitive.dimensions[1] = 2.0;
-        primitive.dimensions[2] = 0.1;
-
-        geometry_msgs::Pose object_pose;
-        object_pose.orientation.w = 1.0;
-        object_pose.position.x = 0.0;
-        object_pose.position.y = 0.0;
-        object_pose.position.z = -0.055;
-
-        collision_object.primitives.push_back(primitive);
-        collision_object.primitive_poses.push_back(object_pose);
-        collision_object.operation = collision_object.ADD;
-
-        std::vector<moveit_msgs::CollisionObject> collision_objects;
-        collision_objects.push_back(collision_object);
-
-        // Now, let's add the collision object into the world
-        ROS_INFO("Add an object into the world");
-        planning_scene_interface.addCollisionObjects(collision_objects);
-
 
         try
         {
