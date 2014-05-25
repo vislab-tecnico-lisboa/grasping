@@ -163,7 +163,7 @@ reach_types:
   -
     id: 0
     name: 'Very Near'
-    use: true
+    use: false
     minimum_distance: 0.00
     maximum_distance: 0.00
     approach_direction:
@@ -193,7 +193,7 @@ reach_types:
   -
     id: 3
     name: 'Very far'
-    use: false
+    use: true
     minimum_distance: 0.04
     maximum_distance: 0.06
     approach_direction:
