@@ -173,7 +173,7 @@ reach_types:
   -
     id: 1
     name: 'Near'
-    use: false
+    use: true
     minimum_distance: 0.00
     maximum_distance: 0.02
     approach_direction:
@@ -183,9 +183,9 @@ reach_types:
   -
     id: 2
     name: 'Far'
-    use: false
-    minimum_distance: 0.02
-    maximum_distance: 0.04
+    use: true
+    minimum_distance: 0.005
+    maximum_distance: 0.01
     approach_direction:
       x: 0.0
       y: 1.0
@@ -193,7 +193,7 @@ reach_types:
   -
     id: 3
     name: 'Very far'
-    use: true
+    use: false
     minimum_distance: 0.04
     maximum_distance: 0.06
     approach_direction:
@@ -348,7 +348,7 @@ canonical_grips:
   -
     id: 17
     name: 'top grip thumb-front'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0
@@ -357,7 +357,7 @@ canonical_grips:
   -
     id: 18
     name: 'top grip thumb-left'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0
@@ -366,7 +366,7 @@ canonical_grips:
   -
     id: 19
     name: 'top grip thumb-back'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0
@@ -375,7 +375,7 @@ canonical_grips:
   -
     id: 20
     name: 'top grip thumb-right'
-    use: true
+    use: false
     direction:
       x: 0.0
       y: 0.0

@@ -91,16 +91,6 @@ void GraspPlanningAction::goalCB()
 
         bool good_plan=group.plan(my_plan);
 
-
-        /*if (1)
-        {
-          ROS_INFO("Visualizing plan 1 (again)");
-          display_trajectory.trajectory_start = my_plan.start_state_;
-          display_trajectory.trajectory.push_back(my_plan.trajectory_);
-          display_publisher.publish(display_trajectory);
-          sleep(5.0);
-        }*/
-
         if(good_plan)
         {
             group.asyncExecute(my_plan);
@@ -109,7 +99,6 @@ void GraspPlanningAction::goalCB()
             break;
         }
     }
-
 
     group.setPoseTarget(transform_object_eigen);
     //ist_msgs::Object[] collision_objects
@@ -120,7 +109,18 @@ void GraspPlanningAction::goalCB()
         as_.setSucceeded(result_);
     else
         as_.setAborted();
-    ROS_INFO("INSIDE ANALYSIS3");
+
+    /*moveit::core::RobotModel robot_model;
+
+    robot_state::RobotState goal_state(robot_model);
+    robot_state::JointStateGroup* goal_group = goal_state.getJointStateGroup("right_arm");
+    std::vector<double> joint_values(7, 0.0);
+    joint_values[0] = -2.0;
+    joint_values[3] = -0.2;
+    joint_values[5] = -0.15;
+    goal_group->setVariableValues(joint_values);
+    moveit_msgs::Constraints joint_goal = kinematic_constraints::constructGoalConstraints(goal_group);
+    */
 
 }
 
