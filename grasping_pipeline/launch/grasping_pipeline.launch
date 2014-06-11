@@ -1,6 +1,6 @@
 <launch>
   <!-- Perception -->
-  <include file="$(find perception)/launch/perception_gazebo.launch"/>
+  <include file="$(find perception)/launch/perception.launch"/>
 
   <!-- Grasp generation -->
   <include file="$(find ist_generate_grasps)/launch/generate_grasps_real.launch"/>

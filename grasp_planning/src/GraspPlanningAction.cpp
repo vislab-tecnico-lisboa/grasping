@@ -1,5 +1,5 @@
 #include <grasp_planning/GraspPlanningAction.h>
-
+#include <tf/transform_broadcaster.h>
 GraspPlanningAction::GraspPlanningAction(std::string name) : as_(nh_, name, false), action_name_(name), group("arm")
 {
     //register the goal and feeback callbacks
@@ -39,6 +39,9 @@ GraspPlanningAction::GraspPlanningAction(std::string name) : as_(nh_, name, fals
     }
     tf::transformTFToEigen(end_effector_palm_transform, transform_end_effector_to_palm);
 
+    close_gripper_client = nh_.serviceClient<std_srvs::Empty>("close_gripper");
+
+
 }
 
 void GraspPlanningAction::goalCB()
@@ -74,9 +77,9 @@ void GraspPlanningAction::goalCB()
     //ist_msgs::Object object_to_grasp= goal_->object_to_grasp;
     ist_msgs::GripList grip_list=goal_->grip_list;
     moveit::planning_interface::MoveGroup::Plan my_plan;
-
+       group.setPlanningTime(0.5);
     ist_msgs::GripState chosen_grip;
-
+    bool good_plan=false;
     for(int i=0;i< grip_list.grip_states.size();++i)
     {
         //ROS_INFO("trying grip:",grip_list.grip_states[i].);
@@ -86,29 +89,94 @@ void GraspPlanningAction::goalCB()
 
         Eigen::Affine3d final_transform = transform_object_eigen*transform_grip_eigen*transform_end_effector_to_palm;
 
-        std::cout << final_transform.matrix() << std::endl;
+        static tf::TransformBroadcaster br;
+        tf::Transform transform;
+        transform.setOrigin( tf::Vector3(final_transform.translation().x(), final_transform.translation().y(), final_transform.translation().z()) );
+        tf::Quaternion q;
+        q.setRPY(0, 0, 0);
+        transform.setRotation(q);
+        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "gripper_pose"));
+
+        //std::cout << final_transform.matrix() << std::endl;
         group.setPoseTarget(final_transform);
 
         bool good_plan=group.plan(my_plan);
 
         if(good_plan)
         {
-            group.asyncExecute(my_plan);
+            ROS_INFO("GOOD PLAN");
+            //group.asyncExecute(my_plan);
             chosen_grip=grip_list.grip_states[i];
             print_grip((int)chosen_grip.grip_pose.direction.id);
             break;
+        }
+        else
+        {
+            ROS_INFO("BAD PLAN");
         }
     }
 
     group.setPoseTarget(transform_object_eigen);
     //ist_msgs::Object[] collision_objects
     // plan the motion and then move the group to the sampled target
-    bool success=group.asyncMove();
+    //bool success=group.asyncMove();
+    bool success=group.execute(my_plan);
 
-    if(success)
-        as_.setSucceeded(result_);
-    else
+    if(!success)
+    {
+        ROS_INFO("FAILED MOVING...");
         as_.setAborted();
+        return;
+    }
+
+    std_srvs::Empty srv;
+    if (!close_gripper_client.call(srv))
+    {
+        as_.setAborted(result_);
+        ROS_ERROR("Failed to call service close gripper");
+    }
+    else
+    {
+      return;
+    }
+
+
+
+
+
+
+
+    // MOVE TO HARDCODED CONTA
+    // 0.70456; 0.21208; 0.60488
+    // -0.23468; 0.66706; 0.23463; 0.66701
+    Eigen::Affine3d transformation;
+    transformation.rot
+
+    group.setPoseTarget(transform_object_eigen);
+    //ist_msgs::Object[] collision_objects
+    // plan the motion and then move the group to the sampled target
+    //bool success=group.asyncMove();
+    bool success=group.execute(my_plan);
+
+    if(!success)
+    {
+        ROS_INFO("FAILED MOVING...");
+        as_.setAborted();
+        return;
+    }
+
+    std_srvs::Empty srv;
+    if (!close_gripper_client.call(srv))
+    {
+        as_.setAborted(result_);
+        ROS_ERROR("Failed to call service close gripper");
+    }
+    else
+    {
+      return;
+    }
+
+    as_.setSucceeded(result_);
 
     /*moveit::core::RobotModel robot_model;
 

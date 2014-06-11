@@ -14,7 +14,7 @@
 #include <eigen_conversions/eigen_msg.h>
 #include <tf/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
-
+#include <std_srvs/Empty.h>
 
 void print_grip(int grip_id)
 {
@@ -164,5 +164,7 @@ protected:
 
     ros::Publisher display_publisher;
     moveit_msgs::DisplayTrajectory display_trajectory;
+
+    ros::ServiceClient close_gripper_client;
 };
 

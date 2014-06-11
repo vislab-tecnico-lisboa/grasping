@@ -6,6 +6,7 @@
 
 #include <ist_grasp_generation_msgs/GraspingAction.h>
 #include <actionlib/server/simple_action_server.h>
+#include <std_srvs/Empty.h>
 
 class GraspingPipelineAction
 {
@@ -71,7 +72,7 @@ public:
         //wait for the action to return
         bool finished_before_timeout = detect_objects.waitForResult(ros::Duration(30.0));
 
-        if (finished_before_timeout)
+        if(finished_before_timeout)
         {
             actionlib::SimpleClientGoalState state = detect_objects.getState();
             ROS_INFO("Action finished: %s",state.toString().c_str());
@@ -94,7 +95,6 @@ public:
         // wait for the action server to start
         generate_grasps.waitForServer(); //will wait for infinite time
 
-
         ist_grasp_generation_msgs::GenerateGraspsGoal grasps_goal;
 
         grasps_goal.object_to_grasp_id=0;
@@ -104,7 +104,7 @@ public:
         //wait for the action to return
         finished_before_timeout = detect_objects.waitForResult(ros::Duration(30.0));
 
-        if (finished_before_timeout)
+        if(finished_before_timeout)
         {
             actionlib::SimpleClientGoalState state = generate_grasps.getState();
             ROS_INFO("Action finished: %s",state.toString().c_str());
@@ -123,5 +123,9 @@ public:
             // set the action state to succeeded
             as_.setSucceeded(result_);
         }
+
+
+
+
     }
 };

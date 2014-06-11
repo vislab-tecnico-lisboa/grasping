@@ -96,13 +96,13 @@ class GenerateTrajectoriesAction(object):
         # publish the feedback
         if(plan_trajectory_resp.hand_state.grasp_pose.trajectory_status==1):
           good_trajectory=True
-          print 'Possible grasp'
+          rospy.loginfo('Possible grasp')
           self._feedback.state="Possible grasp."
           self._result.status=1
           self._result.grip_list=grip_list
           return # SALTA LOGO MAL ENCONTRA UM GRASP BOM
         else:
-          print 'Impossible grasp'
+	  rospy.loginfo('Impossible grasp')
           self._feedback.state="Impossible grasp."
         
         self._feedback.progress=float(graspsCounter+1)/float(len(grip_list.grip_states))
