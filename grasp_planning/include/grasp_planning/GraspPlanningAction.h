@@ -15,7 +15,8 @@
 #include <tf/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 #include <std_srvs/Empty.h>
-
+#include <ist_msgs/ObjectList.h>
+#include <ist_grasp_generation_msgs/AddObjectCollision.h>
 void print_grip(int grip_id)
 {
 
@@ -112,41 +113,17 @@ public:
 
     void goalCB();
 
-    void preemptCB()
-    {
-        ROS_INFO("%s: Preempted", action_name_.c_str());
-        // set the action state to preempted
-        as_.setPreempted();
-    }
+    void preemptCB();
 
-    void analysisCB(const ist_msgs::GripList& msg)
-    {
-        // make sure that the action hasn't been canceled
-        if (!as_.isActive())
-            return;
-
-        //        data_count_++;
-        //        feedback_.sample = data_count_;
-        //        feedback_.data = msg->data;
-        //        //compute the std_dev and mean of the data
-        //        sum_ += msg->data;
-        //        feedback_.mean = sum_ / data_count_;
-        //        sum_sq_ += pow(msg->data, 2);
-        //        feedback_.std_dev = sqrt(fabs((sum_sq_/data_count_) - pow(feedback_.mean, 2)));
-        //        as_.publishFeedback(feedback_);
-        // specify that our target will be a random one
-        group.setRandomTarget();
-        // plan the motion and then move the group to the sampled target
-        bool success=group.move();
-        if(success)
-            as_.setSucceeded(result_);
-        else
-            as_.setAborted();
-        ROS_INFO("INSIDE ANALYSIS");
-
-    }
-
-protected:
+    void analysisCB(const ist_msgs::GripList& msg);
+private:
+    bool objectsToCollisionEnvironment(ist_grasp_generation_msgs::AddObjectCollision::Request  &req,
+                                      ist_grasp_generation_msgs::AddObjectCollision::Response &res);
+    void removeObjectsFromCollisionEnvironment(std::vector<std::string> & ids);
+    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+    double collision_delta;
+//    std::map<std::string, moveit_msgs::CollisionObject> collision_objects;
+    std::vector<moveit_msgs::CollisionObject> collision_objects;
     Eigen::Affine3d transform_end_effector_to_palm;
 
     ros::NodeHandle nh_;
@@ -160,11 +137,13 @@ protected:
     ros::Subscriber sub_;
 
     moveit::planning_interface::MoveGroup group;
-    moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
     ros::Publisher display_publisher;
     moveit_msgs::DisplayTrajectory display_trajectory;
 
     ros::ServiceClient close_gripper_client;
+    ros::ServiceClient open_gripper_client;
+    ros::ServiceServer add_object_collision_server;
+
 };
 

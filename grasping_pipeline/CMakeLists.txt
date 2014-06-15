@@ -9,6 +9,8 @@ find_package(catkin REQUIRED COMPONENTS
   ist_msgs
   perception_msgs
   roscpp
+  moveit_msgs
+  moveit_ros_planning_interface
 )
 
 ## System dependencies are found with CMake's conventions

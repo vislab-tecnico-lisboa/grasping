@@ -66,8 +66,6 @@ class GenerateGraspsAction(object):
         self._as.set_preempted()
         return
     
-
-    #print 'position:'+str(grasp_candidates_resp.grip_list.grip_states[0].hand_state.grasp_pose.pose)
     # 2. Filter grasp candidates
 
     # publish the feedback
@@ -118,11 +116,11 @@ class GenerateGraspsAction(object):
     # 4. Add objects to collision environment
     
     # publish the feedback
-    #self._feedback.state="Add objects to collision environment..." 
-    #self._feedback.progress=0.50
-    #self._as.publish_feedback(self._feedback)
+    self._feedback.state="Add objects to collision environment..." 
+    self._feedback.progress=0.50
+    self._as.publish_feedback(self._feedback)
    
-    #self.collision_environment(goal.collision_objects, goal.table, 1)
+    self.collision_environment(goal.object_list, goal.table, 1)
     
     # 5. Grasp motion planning (kinematics and collisions)
     
@@ -143,11 +141,11 @@ class GenerateGraspsAction(object):
     
     if plan_grasp_trajectories_resp.status==-1 or len(plan_grasp_trajectories_resp.grip_list.grip_states) == 0: # or len(plan_grasp_trajectories_resp.grip_list.grip_states)==0:
         self._result.status=-1
-	print ' FAILED!!!!'
+
         return
     else:
       self._result.status=1
-      print ' SUCCEED!!!!'
+
     self._result.grip_list=plan_grasp_trajectories_resp.grip_list
 
     # publish the feedback
@@ -239,13 +237,13 @@ class GenerateGraspsAction(object):
 
   def collision_environment(self,object_list, table, action):
     print 'Waiting for collision environment service...'
-    rospy.wait_for_service('new_object_collision')
+    rospy.wait_for_service('add_objects_collision')
     try:
-        collision_srv = rospy.ServiceProxy('new_object_collision' , ist_grasp_generation_msgs.srv.AddObjectCollision)
+        collision_srv = rospy.ServiceProxy('add_objects_collision' , ist_grasp_generation_msgs.srv.AddObjectCollision)
         myReq = ist_grasp_generation_msgs.srv.AddObjectCollisionRequest()
         myReq.table=table
         myReq.object_list=object_list
-        myReq.action=action
+        #myReq.action=action
         collision_srv(myReq)
     except rospy.ServiceException, e:
         print "Collision environment service call failed: %s"%e
