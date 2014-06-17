@@ -41,6 +41,7 @@ GraspPlanningAction::GraspPlanningAction(std::string name) : as_(nh_, name, fals
     close_gripper_client = nh_.serviceClient<std_srvs::Empty>("close_gripper");
     open_gripper_client = nh_.serviceClient<std_srvs::Empty>("open_gripper");
     add_object_collision_server =  nh_.advertiseService("add_objects_collision", &GraspPlanningAction::objectsToCollisionEnvironment, this);
+    attached_object_publisher = nh_.advertise<moveit_msgs::AttachedCollisionObject>("attached_collision_object", 1);
 }
 
 void GraspPlanningAction::goalCB()
@@ -138,6 +139,28 @@ void GraspPlanningAction::goalCB()
 
     sleep(6.0);
 
+    //////////////////////////////
+    // Attach object to gripper //
+    //////////////////////////////
+
+    std::vector<std::string> ids;
+    ids.push_back(collision_objects[0].id);
+    planning_scene_interface.removeCollisionObjects(ids);
+
+    while(attached_object_publisher.getNumSubscribers() < 1)
+    {
+      ros::WallDuration sleep_t(0.5);
+      sleep_t.sleep();
+    }
+
+
+
+    moveit_msgs::AttachedCollisionObject attached_object;
+    attached_object.link_name = "finger_1";
+    attached_object.object.header.frame_id = "finger_1";
+    attached_object.object=collision_objects[0];
+    attached_object_publisher.publish(attached_object);
+
     ///////////////////////////////////
     // Goto predefined last position //
     ///////////////////////////////////
@@ -159,7 +182,7 @@ void GraspPlanningAction::goalCB()
         ROS_INFO("BAD PLAN");
     }
 
-    sleep(2.0);
+    sleep(6.0);
 
     ///////////////////////////////
     // Drop object: Open Gripper //
@@ -168,12 +191,17 @@ void GraspPlanningAction::goalCB()
     if (!open_gripper_client.call(srv))
     {
         as_.setAborted(result_);
-        ROS_ERROR("Failed to call service close gripper");
-        return;
+    }
+    else
+    {
+        as_.setSucceeded(result_);
     }
 
-    as_.setSucceeded(result_);
+    attached_object.object.operation = attached_object.object.REMOVE;
+    attached_object_publisher.publish(attached_object);
+    planning_scene_interface.removeCollisionObjects(ids);
 
+    return;
 }
 
 void GraspPlanningAction::preemptCB()
@@ -281,7 +309,7 @@ bool GraspPlanningAction::objectsToCollisionEnvironment(ist_grasp_generation_msg
     }
 
     ROS_INFO("Done.");
-    exit(-1);
+
     return true;
 }
 

@@ -144,6 +144,6 @@ private:
     ros::ServiceClient close_gripper_client;
     ros::ServiceClient open_gripper_client;
     ros::ServiceServer add_object_collision_server;
-
+    ros::Publisher attached_object_publisher;
 };
 

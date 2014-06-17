@@ -139,11 +139,12 @@ class GenerateGraspsAction(object):
     # Action call
     plan_grasp_trajectories_resp=self.plan_grasp_trajectories(grip_list,goal.object_list.objects[goal.object_to_grasp_id],collision_objects)
     
-    if plan_grasp_trajectories_resp.status==-1 or len(plan_grasp_trajectories_resp.grip_list.grip_states) == 0: # or len(plan_grasp_trajectories_resp.grip_list.grip_states)==0:
+    if plan_grasp_trajectories_resp.status==-1: #or len(plan_grasp_trajectories_resp.grip_list.grip_states) == 0: # or len(plan_grasp_trajectories_resp.grip_list.grip_states)==0:
         self._result.status=-1
-
+	print ' NOOOOOOO', str(plan_grasp_trajectories_resp.status), ' ', str(len(plan_grasp_trajectories_resp.grip_list.grip_states))
         return
     else:
+      print ' YEEEEES'
       self._result.status=1
 
     self._result.grip_list=plan_grasp_trajectories_resp.grip_list

@@ -174,8 +174,8 @@ reach_types:
     id: 1
     name: 'Near'
     use: true
-    minimum_distance: 0.00
-    maximum_distance: 0.04
+    minimum_distance: 0.02
+    maximum_distance: 0.05
     approach_direction:
       x: 0.0
       y: 1.0

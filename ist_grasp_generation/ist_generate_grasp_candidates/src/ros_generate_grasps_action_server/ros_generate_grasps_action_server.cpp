@@ -601,6 +601,11 @@ void RosGenerateGraspsActionServer::executeCB(const ist_grasp_generation_msgs::G
 				continue;
 			}
 
+			if(goal->object.data.actionable_parts_data[r].part.id!=2) // only use middle
+			{		
+				continue;
+			
+			} // Only generate grasps for usable object parts
 			/*if(!goal->object.data.actionable_parts_data[r].part.use) // Only generate grasps for usable object parts
 			{
 				continue;
