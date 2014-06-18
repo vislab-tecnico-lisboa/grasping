@@ -23,7 +23,7 @@ void GraspingPipelineAction::executeCB(const ist_grasp_generation_msgs::Grasping
 
     ROS_INFO("Waiting for object detection action server to start.");
     // wait for the action server to start
-    detect_objects.waitForServer(ros::Duration(2,0)); //will wait for infinite time
+    detect_objects.waitForServer(); //will wait for infinite time
 
     // send a goal to the action
     perception_msgs::DetectObjectsGoal object_detection_goal;
@@ -40,16 +40,23 @@ void GraspingPipelineAction::executeCB(const ist_grasp_generation_msgs::Grasping
     //wait for the action to return
     bool finished_before_timeout = detect_objects.waitForResult(ros::Duration(60.0));
 
-    if(finished_before_timeout)
+    if(!finished_before_timeout)
     {
-        ROS_INFO("Action finished: %s",detect_objects.getState().toString().c_str());
+        ROS_INFO("Action did not finish before the time out.");
+        as_.setAborted();
+        success = false;
+        return;
+    }
+    else if(detect_objects.getState()!=detect_objects.getState().SUCCEEDED)
+    {
+        ROS_INFO("Action did not succeed.");
+        as_.setAborted();
+        success = false;
+        return;
     }
     else
     {
-        ROS_INFO("Action did not finish before the time out.");
-        as_.setPreempted();
-        success = false;
-        return;
+        ROS_INFO("Action finished: %s",detect_objects.getState().toString().c_str());
     }
 
     ist_grasp_generation_msgs::GenerateGraspsGoal objects;
