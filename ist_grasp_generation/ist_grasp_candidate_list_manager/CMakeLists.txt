@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
 )
 
+
+find_package(cmake_modules REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Eigen REQUIRED)
 find_package(PCL REQUIRED)
@@ -39,3 +41,5 @@ include_directories(include
 add_library(reachability src/ReachabilityMap.cpp)
 add_executable(grasp_candidate_list_manager src/grasp_candidate_list_manager/grasp_candidate_list_manager.cpp)
 target_link_libraries(grasp_candidate_list_manager generate_grip_states reachability ${PCL_LIBRARIES} ${Boost_LIBRARIES} ${Eigen_LIBRARIES} ${catkin_LIBRARIES})
+
+add_dependencies(grasp_candidate_list_manager ist_grasp_generation_msgs_generate_messages_cpp)

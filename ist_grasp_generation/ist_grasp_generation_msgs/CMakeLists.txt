@@ -8,8 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
 	ist_msgs
 	actionlib
 	actionlib_msgs
-        trajectory_msgs
-        tabletop_object_segmentation_online
+  trajectory_msgs
+  tabletop_object_segmentation_online
 	perception_msgs
 )
 
