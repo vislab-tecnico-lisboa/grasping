@@ -1,5 +1,5 @@
-# ROS package that selects where to grasp an object using 3D point information and bounding boxes
-
+# Point-cloud & part-based grasping
+ROS package that selects where to grasp an object using 3D point information and bounding boxes
 ## Installation
 ### Dependencies
 + rosdep install ist_msgs grasping_pipeline
