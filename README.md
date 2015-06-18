@@ -13,4 +13,4 @@ ROS package that selects where to grasp an object using 3D point information and
 + catkin_make --pkg ist_grasp_generation_msgs
 
 ### Package compilation
-+ catkin_make --pkg grasping
++ catkin_make
