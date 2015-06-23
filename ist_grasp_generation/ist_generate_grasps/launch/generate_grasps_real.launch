@@ -17,7 +17,9 @@
 		<rosparam command="load" file="$(find ist_generate_grasps)/config/config.yaml"/>
   </node>-->
 
-  	<node pkg="grasp_planning" name="grasp_planning_server" type="grasp_planning_server" respawn="true" output="screen"/>
+  	<node pkg="grasp_planning" name="grasp_planning_server" type="grasp_planning_server" respawn="true" output="screen">
+		<rosparam command="load" file="$(find grasp_planning)/config/params.yaml"/>
+        </node>
   
 	<!-- Generate grasps action server -->
   <node pkg="ist_generate_grasps" name="generate_grasps_server" type="generate_grasps_server.py" respawn="true" output="screen"/>

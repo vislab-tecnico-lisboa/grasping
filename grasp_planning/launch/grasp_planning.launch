@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+  	<node pkg="grasp_planning" name="grasp_planning_server" type="grasp_planning_server" respawn="true" output="screen">
+		<rosparam command="load" file="$(find grasp_planning)/config/params.yaml"/>
+        </node>
+
+</launch>
+

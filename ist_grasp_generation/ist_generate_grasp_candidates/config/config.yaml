@@ -1,7 +1,7 @@
 palm_base_to_palm_center_offset_x: 0.00
 palm_base_to_palm_center_offset_y: 0.00
 palm_base_to_palm_center_offset_z: 0.00
-palm_to_tip_distance: 0.05
+palm_to_tip_distance: 0.1
 gaussian_process_parameters: 10
 predict_mode: 'Manual'
 learn: true
@@ -443,7 +443,7 @@ canonical_grasps:
         z: 0.00
     orientation_perturbation: 
       angle_step: 5.0
-      n_perturbs: 0
+      n_perturbs: 5
       axis:
         x: 1.0
         y: 0.0

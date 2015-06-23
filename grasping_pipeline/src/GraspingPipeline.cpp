@@ -28,12 +28,12 @@ void GraspingPipelineAction::executeCB(const ist_grasp_generation_msgs::Grasping
     // send a goal to the action
     perception_msgs::DetectObjectsGoal object_detection_goal;
 
-    object_detection_goal.table_region.x_filter_min = 0.4;
+    object_detection_goal.table_region.x_filter_min = -1.0;
     object_detection_goal.table_region.x_filter_max = 1.0;
-    object_detection_goal.table_region.y_filter_min =-0.4;
-    object_detection_goal.table_region.y_filter_max = 0.4;
-    object_detection_goal.table_region.z_filter_min =-0.1;
-    object_detection_goal.table_region.z_filter_max = 0.3;
+    object_detection_goal.table_region.y_filter_min =-1.0;
+    object_detection_goal.table_region.y_filter_max = 1.0;
+    object_detection_goal.table_region.z_filter_min = 0.1;
+    object_detection_goal.table_region.z_filter_max = 3.0;
 
     detect_objects.sendGoal(object_detection_goal);
 

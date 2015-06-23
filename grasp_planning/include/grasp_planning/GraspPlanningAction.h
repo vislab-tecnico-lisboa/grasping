@@ -104,6 +104,11 @@ void print_grip(int grip_id)
 
 class GraspPlanningAction
 {
+
+    std::string base_link;
+    std::string end_effector_link;
+    std::string palm_link;
+    std::string planning_group;
 public:
 
     GraspPlanningAction(std::string name);
@@ -127,6 +132,7 @@ private:
     Eigen::Affine3d transform_end_effector_to_palm;
 
     ros::NodeHandle nh_;
+    ros::NodeHandle nh_priv_;
     actionlib::SimpleActionServer<ist_grasp_generation_msgs::GenerateTrajectoriesAction> as_;
     std::string action_name_;
     int data_count_;
@@ -136,7 +142,7 @@ private:
     ist_grasp_generation_msgs::GenerateTrajectoriesResult result_;
     ros::Subscriber sub_;
 
-    moveit::planning_interface::MoveGroup group;
+    moveit::planning_interface::MoveGroup* group;
 
     ros::Publisher display_publisher;
     moveit_msgs::DisplayTrajectory display_trajectory;

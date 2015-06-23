@@ -1,17 +1,32 @@
 #include <grasp_planning/GraspPlanningAction.h>
 #include <tf/transform_broadcaster.h>
-GraspPlanningAction::GraspPlanningAction(std::string name) : as_(nh_, name, false), action_name_(name), group("arm"), collision_delta(0.0005)
+#include <tf_conversions/tf_eigen.h>
+
+GraspPlanningAction::GraspPlanningAction(std::string name) : as_(nh_, name, false), nh_priv_("~"), action_name_(name), collision_delta(0.0005)
 {
+    nh_priv_.param<std::string>("base_link",base_link,"base_link");
+    nh_priv_.param<std::string>("end_effector_link",end_effector_link,"end_effector_link");
+    nh_priv_.param<std::string>("palm_link",palm_link,"palm_link");
+    nh_priv_.param<std::string>("planning_group",planning_group,"planning_group");
+
+    ROS_INFO_STREAM("base_link: "<<base_link);
+    ROS_INFO_STREAM("end_effector_link: "<<end_effector_link);
+    ROS_INFO_STREAM("palm_link: "<<palm_link);
+    ROS_INFO_STREAM("planning_group: "<<planning_group);
+
+    group=new moveit::planning_interface::MoveGroup(planning_group);
+
     //register the goal and feeback callbacks
     as_.registerGoalCallback(boost::bind(&GraspPlanningAction::goalCB, this));
     as_.registerPreemptCallback(boost::bind(&GraspPlanningAction::preemptCB, this));
 
     //subscribe to the data topic of interest
     as_.start();
-
-    group.setPoseReferenceFrame("base_link");
-    //group.setEndEffectorLink("palm_frame");
-    group.setEndEffectorLink("end_effector");
+    ROS_INFO_STREAM("planning frame: "<<group->getPlanningFrame());
+    //ROS_INFO_STREAM("Robot joints: "<<group->getJoints());
+    group->setPoseReferenceFrame(base_link);
+    group->setEndEffectorLink(palm_link);
+    //group->setEndEffectorLink(end_effector_link);
 
     // (Optional) Create a publisher for visualizing plans in Rviz.
     display_publisher = nh_.advertise<moveit_msgs::DisplayTrajectory>("/move_group/display_planned_path", 1, true);
@@ -25,10 +40,10 @@ GraspPlanningAction::GraspPlanningAction(std::string name) : as_(nh_, name, fals
     try
     {
         ros::Time now = ros::Time::now();
-        listener.waitForTransform("palm_frame", "end_effector",
+        listener.waitForTransform(palm_link, end_effector_link,
                                   ros::Time(0), ros::Duration(3.0));
 
-        listener.lookupTransform("palm_frame", "end_effector",
+        listener.lookupTransform(palm_link, end_effector_link,
                                  ros::Time(0), end_effector_palm_transform);
 
     }
@@ -57,10 +72,10 @@ void GraspPlanningAction::goalCB()
     try
     {
         ros::Time now = ros::Time::now();
-        listener.waitForTransform("base_link", object_to_grasp.collision_name,
+        listener.waitForTransform(base_link, object_to_grasp.collision_name,
                                   ros::Time(0), ros::Duration(3.0));
 
-        listener.lookupTransform("base_link", object_to_grasp.collision_name,
+        listener.lookupTransform(base_link, object_to_grasp.collision_name,
                                  ros::Time(0), transform);
         std::cout << transform.getOrigin().getX() << std::endl;
 
@@ -77,7 +92,7 @@ void GraspPlanningAction::goalCB()
     moveit::planning_interface::MoveGroup::Plan my_plan;
 
     ist_msgs::GripList grip_list=goal_->grip_list;
-    group.setPlanningTime(0.5);
+    group->setPlanningTime(5.0);
     ist_msgs::GripState chosen_grip;
 
     for(int i=0; i< grip_list.grip_states.size(); ++i)
@@ -91,21 +106,24 @@ void GraspPlanningAction::goalCB()
 
         static tf::TransformBroadcaster br;
         tf::Transform transform;
-        transform.setOrigin( tf::Vector3(final_transform.translation().x(), final_transform.translation().y(), final_transform.translation().z()) );
-        tf::Quaternion q;
-        q.setRPY(0, 0, 0);
-        transform.setRotation(q);
-        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "gripper_pose"));
+        //transform.setOrigin( tf::Vector3(final_transform.translation().x(), final_transform.translation().y(), final_transform.translation().z()) );
+        //tf::Quaternion q;
+        //q.setRPY(0, 0, 0);
+        //transform.setRotation(q);
+        tf::poseEigenToTF(final_transform,transform);
+
+        br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), base_link, "gripper_pose"));
 
         //std::cout << final_transform.matrix() << std::endl;
-        group.setPoseTarget(final_transform);
+        group->setPoseTarget(final_transform);
 
-        bool good_plan=group.plan(my_plan);
+	moveit::planning_interface::MoveItErrorCode plannerError;
+        plannerError=group->plan(my_plan);
 
-        if(good_plan)
+        if(plannerError)
         {
             ROS_INFO("GOOD PLAN");
-            //group.asyncExecute(my_plan);
+            //group->asyncExecute(my_plan);
             chosen_grip=grip_list.grip_states[i];
             print_grip((int)chosen_grip.grip_pose.direction.id);
             break;
@@ -113,10 +131,11 @@ void GraspPlanningAction::goalCB()
         else
         {
             ROS_INFO("BAD PLAN");
+	    ROS_INFO("planner error: %d",plannerError.val);
         }
     }
 
-    bool success=group.execute(my_plan);
+    bool success=group->execute(my_plan);
 
     if(!success)
     {
@@ -149,8 +168,8 @@ void GraspPlanningAction::goalCB()
 
     while(attached_object_publisher.getNumSubscribers() < 1)
     {
-      ros::WallDuration sleep_t(0.5);
-      sleep_t.sleep();
+        ros::WallDuration sleep_t(0.5);
+        sleep_t.sleep();
     }
 
 
@@ -169,12 +188,12 @@ void GraspPlanningAction::goalCB()
     Eigen::Vector3d p(0.0216893, -0.414892, 0.341879);
     Eigen::Quaterniond quaternion(-0.00290399, 0.7214, -0.00289372, 0.692506);
     transformation = Eigen::Translation3d(p) * quaternion;
-    group.setPoseTarget(transformation);
-    good_plan=group.plan(my_plan);
+    group->setPoseTarget(transformation);
+    good_plan=group->plan(my_plan);
 
     if(good_plan)
     {
-        group.execute(my_plan);
+        group->execute(my_plan);
         ROS_INFO("GOOD PLAN!!!!");
     }
     else
@@ -227,9 +246,9 @@ void GraspPlanningAction::analysisCB(const ist_msgs::GripList& msg)
     //        feedback_.std_dev = sqrt(fabs((sum_sq_/data_count_) - pow(feedback_.mean, 2)));
     //        as_.publishFeedback(feedback_);
     // specify that our target will be a random one
-    group.setRandomTarget();
+    group->setRandomTarget();
     // plan the motion and then move the group to the sampled target
-    bool success=group.move();
+    bool success=group->move();
     if(success)
         as_.setSucceeded(result_);
     else
@@ -250,7 +269,7 @@ bool GraspPlanningAction::objectsToCollisionEnvironment(ist_grasp_generation_msg
     //        }
 
     collision_objects.clear();
-    std::string brain_frame_id="base_link";
+    std::string brain_frame_id=base_link;
 
     int box_index=0;
     // For each object
@@ -302,8 +321,8 @@ bool GraspPlanningAction::objectsToCollisionEnvironment(ist_grasp_generation_msg
 
         // Now, let's add the collision object into the world
         ROS_INFO("Add an object into the world");
-
-        planning_scene_interface.addCollisionObjects(collision_objects);
+	//Commented out by Plinio for testing
+        //planning_scene_interface.addCollisionObjects(collision_objects);
 
 
     }
@@ -318,13 +337,13 @@ void GraspPlanningAction::removeObjectsFromCollisionEnvironment(std::vector<std:
 {
 
     planning_scene_interface.removeCollisionObjects(ids);
-//    for(uint32_t id = 0; id < ids.size(); ++id)
-//    {
-//        std::map<std::string, moveit_msgs::CollisionObject>::iterator it;
-//        it=collision_objects.find(ids[id]);
-//        if(it!=collision_objects.end())
-//            collision_objects.erase(it);                   // erasing by iterator
-//    }
+    //    for(uint32_t id = 0; id < ids.size(); ++id)
+    //    {
+    //        std::map<std::string, moveit_msgs::CollisionObject>::iterator it;
+    //        it=collision_objects.find(ids[id]);
+    //        if(it!=collision_objects.end())
+    //            collision_objects.erase(it);                   // erasing by iterator
+    //    }
 }
 
 int main(int argc, char** argv)
