@@ -817,7 +817,7 @@ ist_msgs::GripPose RosGenerateGraspsActionServer::fillGripPoseMessage(const boos
 
 	// Grip pose (relatively to the object frame)
 	geometry_msgs::PoseStamped grip_pose_msg;
-	tf::poseEigenToMsg(grasp->grip.pose, grip_pose_msg.pose);
+    tf::poseEigenToMsg(Eigen::Affine3d(grasp->grip.pose), grip_pose_msg.pose);
 	grip_pose_msg.header.frame_id=frame_id;
 
 	msg.pose=grip_pose_msg;
@@ -825,7 +825,6 @@ ist_msgs::GripPose RosGenerateGraspsActionServer::fillGripPoseMessage(const boos
 	// Object part
 	msg.part=object_part; // 0 ANY_PART, 1 CENTER, etc
 
-	//ROS_INFO_STREAM("OBJECT PART IDDDDDDDDDDDDDDDDDDD: "<<grasp->object_part->id);
 	// Grip reach distance type (discrete)
 	msg.distance.id=grasp->reach.reach_type->id; // 0 ANY_DISTANCE, 1 NEAR, etc NEAR=2cm FAR=4cm VERY FAR=6cm
 
