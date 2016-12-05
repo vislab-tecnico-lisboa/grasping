@@ -1,5 +1,5 @@
 base_link: base_footprint
-end_effector_link: mico_end_effector
+end_effector_link: r_end_effector
 palm_link: r_palm_link
 planning_group: right_arm
 
