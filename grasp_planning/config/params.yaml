@@ -1,5 +1,5 @@
-base_link: mico_link_base
-end_effector_link: mico_end_effector
-palm_link: mico_link_hand
-planning_group: mico_arm_group
+base_link: base_link
+end_effector_link: r_hand_effector
+palm_link: right_palm_link
+planning_group: right_arm
 

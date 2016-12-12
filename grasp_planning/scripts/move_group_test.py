@@ -73,7 +73,7 @@ def move_group_python_interface_tutorial():
   ## to one group of joints.  In this case the group is the joints in the left
   ## arm.  This interface can be used to plan and execute motions on the left
   ## arm.
-  group = moveit_commander.MoveGroupCommander("mico_arm_group")
+  group = moveit_commander.MoveGroupCommander("right_arm")
 
 
   ## We create this DisplayTrajectory publisher which is used below to publish
