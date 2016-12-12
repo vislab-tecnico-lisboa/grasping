@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 base_link: base_link
 end_effector_link: r_hand_effector
 palm_link: right_palm_link
+=======
+base_link: base_footprint
+end_effector_link: r_end_effector
+palm_link: r_palm_link
+>>>>>>> d0d2506c54d1d0fe2edea2b9473c655574ef7c13
 planning_group: right_arm
 
